@@ -12,7 +12,7 @@ class TaskController extends Controller
 {
     public function index()
     {
-        $sites = DB::table('Dive Sites')->where("avgRate", 3)->orderBy("id", "desc")->get();
+        $sites = DB::table('DiveSites')->where("avgRate", 3)->orderBy("id", "desc")->get();
         return response()->json([
             'site'=>$sites
         ]);
@@ -20,7 +20,7 @@ class TaskController extends Controller
     
     public function search($location)
     {
-        $site = DB::table('Dive Sites')->where("location", $location)->orderBy("id", "desc")->get();
+        $site = DB::table('DiveSites')->where("location", $location)->orderBy("id", "desc")->get();
         return response()->json([
             'site'=>$site
         ]);
@@ -28,7 +28,7 @@ class TaskController extends Controller
 
     public function multiSearch($location, $level)
     {
-        $site = DB::table('Dive Sites')->where("location", $location)->where("level", $level)->orderBy("id", "desc")->get();
+        $site = DB::table('DiveSites')->where("location", $location)->where("level", $level)->orderBy("id", "desc")->get();
         return response()->json([
             'site'=>$site
         ]);
