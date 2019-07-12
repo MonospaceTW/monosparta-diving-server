@@ -13,7 +13,7 @@ class CreateTasksTable extends Migration
      */
     public function up()
     {
-        Schema::create('test004', function (Blueprint $table) {
+        Schema::create('Dive Sites', function (Blueprint $table) {
             $table->bigIncrements('id');
             $table->string('viewName', 10);
             $table->char('level', 2);
@@ -30,6 +30,6 @@ class CreateTasksTable extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('test004');
+        Schema::dropIfExists('Dive Sites');
     }
 }
