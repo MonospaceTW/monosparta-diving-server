@@ -31,4 +31,16 @@ class TaskController extends Controller
             'item'=>$site
         ]);
     }
+<<<<<<< HEAD
+=======
+
+    public function spotInfo($spot_id)
+    {
+        $spotInfo = DB::table('spot_info')->where("spot_id", $spot_id)->get();
+        return response()->json([
+            'item'=>$spotInfo
+        ]);
+    }
+        //
+>>>>>>> 471f0addcfb76d88bc6ac421d471d11444f87f5e
 }
