@@ -6,8 +6,6 @@ use Illuminate\Http\Request;
 
 use Illuminate\Support\Facades\DB;
 
-use App\Task;
-
 class TaskController extends Controller
 {
     public function index()
