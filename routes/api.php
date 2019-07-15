@@ -16,4 +16,4 @@ use Illuminate\Http\Request;
 Route::get("sites/", "TaskController@index");
 Route::get("sites/search/{location}", "TaskController@search");
 Route::get("sites/search/{location}/{level}", "TaskController@multiSearch");
-
+Route::get("sites/{spot_id}", "TaskController@spotInfo");
