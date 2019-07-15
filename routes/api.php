@@ -13,6 +13,7 @@ use Illuminate\Http\Request;
 |
 */
 
+/*Search API Route*/
 Route::get("sites/", "TaskController@index");
 Route::get("sites/search/{location}", "TaskController@search");
 Route::get("sites/search/{location}/{level}", "TaskController@multiSearch");
