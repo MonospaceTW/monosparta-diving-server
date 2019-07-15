@@ -12,25 +12,25 @@ class TaskController extends Controller
 {
     public function index()
     {
-        $sites = DB::table('DiveSites')->where("avgRate", 3)->orderBy("id", "desc")->get();
+        $sites = DB::table('spot_list')->orderBy("spot_id", "desc")->get();
         return response()->json([
-            'site'=>$sites
+            'item'=>$sites
         ]);
     }
     
-    public function search($location)
+    public function search($parm)
     {
-        $site = DB::table('DiveSites')->where("location", $location)->orderBy("id", "desc")->get();
+        $site = DB::table('spot_list')->where("location", $parm)->orWhere("level", $parm)->get();
         return response()->json([
-            'site'=>$site
+            'item'=>$site
         ]);
     }
 
     public function multiSearch($location, $level)
     {
-        $site = DB::table('DiveSites')->where("location", $location)->where("level", $level)->orderBy("id", "desc")->get();
+        $site = DB::table('spot_list')->where("location", $location)->where("level", $level)->orderBy("spot_id", "desc")->get();
         return response()->json([
-            'site'=>$site
+            'item'=>$site
         ]);
     }
         //
