@@ -10,9 +10,9 @@ class TaskController extends Controller
 {
     public function index()
     {
-        $sites = DB::table('spot_list')->orderBy("spot_id", "desc")->get();
+        $site = DB::table('spot_list')->orderBy("spot_id", "desc")->get();
         return response()->json([
-            'item'=>$sites
+            'item'=>$site
         ]);
     }
     
