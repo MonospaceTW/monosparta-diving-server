@@ -15,9 +15,10 @@ use Illuminate\Http\Request;
 
 /*Search API Route*/
 Route::get("sites/", "TaskController@index");
-Route::get("sites/search/{location}", "TaskController@search");
-Route::get("sites/search/{location}/{level}", "TaskController@multiSearch");
+Route::get("sites/search/{pram}", "TaskController@search");
+Route::get("sites/multiSearch/", "TaskController@multiSearch");
 Route::get("sites/{spot_id}", "TaskController@spotInfo");
 Route::fallback(function(){
     return response()->json(['message' => 'Not Found!'], 404);
 });
+// location=${location}&level=${level}
