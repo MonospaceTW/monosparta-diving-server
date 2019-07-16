@@ -33,36 +33,6 @@ class TaskController extends Controller
             ]);
         }
 
-        // $location = $request->location;
-        // $level = $request->level;
-
-        // if ($location != NULL && $level != NULL) {
-
-        //     $site = DB::table('spot_list')->where("location", $location)->where("level", $level)->orderBy("spot_id", "desc")->get();
-        //     return response()->json([
-        //         'item'=>$site
-        //     ]);
-
-        // } else {
-        //     if ($location != NULL) {
-        //         $site = DB::table('spot_list')->where("location", $parm)->orWhere("level", $parm)->get();
-        //         return response()->json([
-        //             'item'=>$site
-        //         ]);               
-        //     }
-
-        //     $site = DB::table('spot_list')->where("location", $parm)->orWhere("level", $parm)->get();
-        //     return response()->json([
-        //         'item'=>$site
-        //     ]);
-
-        // }
-        
-
-        // $site = DB::table('spot_list')->where("location", $parm)->orWhere("level", $parm)->get();
-        // return response()->json([
-        //     'item'=>$site
-        // ]);
     }
 
     public function spotInfo($spot_id)
