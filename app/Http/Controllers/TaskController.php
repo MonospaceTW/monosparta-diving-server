@@ -26,12 +26,20 @@ class TaskController extends Controller
 
     public function multiSearch(Request $request)
     {
-        $level = $request->level;
-        $location = $request->location;
-        $site = DB::table('spot_list')->where("location", $location)->where("level", $level)->orderBy("spot_id", "desc")->get();
-        return response()->json([
-            'item'=>$site
-        ]);
+        if ($request->location) {
+            $parm = $request->location;
+            $site = DB::table('spot_list')->where("location", $parm)->get();
+            return response()->json([
+                'item'=>$site
+            ]);
+        }
+        if ($request->level) {
+            $parm = $request->level;
+            $site = DB::table('spot_list')->where("level", $parm)->get();
+            return response()->json([
+                'item'=>$site
+            ]);
+        }
     }
 
     public function spotInfo($spot_id)
