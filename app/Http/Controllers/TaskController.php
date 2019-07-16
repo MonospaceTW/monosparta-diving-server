@@ -10,9 +10,9 @@ class TaskController extends Controller
 {
     public function index()
     {
-        $sites = DB::table('spot_list')->orderBy("spot_id", "desc")->get();
+        $site = DB::table('spot_list')->orderBy("spot_id", "desc")->get();
         return response()->json([
-            'item'=>$sites
+            'item'=>$site
         ]);
     }
     
@@ -31,8 +31,6 @@ class TaskController extends Controller
             'item'=>$site
         ]);
     }
-<<<<<<< HEAD
-=======
 
     public function spotInfo($spot_id)
     {
@@ -42,5 +40,4 @@ class TaskController extends Controller
         ]);
     }
         //
->>>>>>> 471f0addcfb76d88bc6ac421d471d11444f87f5e
 }
