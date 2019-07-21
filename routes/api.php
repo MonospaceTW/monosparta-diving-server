@@ -13,12 +13,6 @@ use Illuminate\Http\Request;
 |
 */
 
-/*Search API Route*/
-Route::get("sites/", "TaskController@index");
-Route::get("sites/search/", "TaskController@search");
-Route::get("sites/multiSearch/", "TaskController@multiSearch");
-Route::get("sites/{spot_id}", "TaskController@spotInfo");
-Route::fallback(function(){
-    return response()->json(['message' => 'Not Found!'], 404);
+Route::middleware('auth:api')->get('/user', function (Request $request) {
+    return $request->user();
 });
-// location=${location}&level=${level}
