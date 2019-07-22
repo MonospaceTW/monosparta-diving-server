@@ -32,7 +32,6 @@ class TaskController extends Controller
                 'item'=>$siteLevel
             ]);
         }
-
     }
 
     public function spotInfo($spot_id)
