@@ -8,28 +8,28 @@ use Illuminate\Support\Facades\DB;
 
 class TaskController extends Controller
 {
-    public function index()
+    public function spotIndex()
     {
         $site = DB::table('spot_list')->orderBy("spot_id", "desc")->get();
         return response()->json([
             'item'=>$site
         ]);
     }
-    
+
     public function search(Request $request)
     {
         if ($request->location) {
             $parm = $request->location;
-            $site = DB::table('spot_list')->where("location", $parm)->get();
+            $siteLocation = DB::table('spot_list')->where("location", $parm)->get();
             return response()->json([
-                'item'=>$site
+                'item'=>$siteLocation
             ]);
         }
         if ($request->level) {
             $parm = $request->level;
-            $site = DB::table('spot_list')->where("level", $parm)->get();
+            $siteLevel = DB::table('spot_list')->where("level", $parm)->get();
             return response()->json([
-                'item'=>$site
+                'item'=>$siteLevel
             ]);
         }
 
@@ -42,5 +42,41 @@ class TaskController extends Controller
             'item'=>$spotInfo
         ]);
     }
-        //
+    /*====================*/
+    /*====================*/
+
+    public function shopIndex()
+    {
+        $shop = DB::table('shops')->orderBy("shop_id", "desc")->get();
+        return response()->json([
+            'item'=>$shop
+        ]);
+    }
+
+    public function searchShop(Request $request)
+    {
+        if ($request->location) {
+            $parm = $request->location;
+            $shopLocation = DB::table('shops')->where("location", $parm)->get();
+            return response()->json([
+                'item'=>$shopLocation
+            ]);
+        }
+        if ($request->service) {
+            $parm = $request->service;
+            $shopService = DB::table('shops')->where("shop_service","LIKE", "%".$parm."%")->get();
+            return response()->json([
+                'item'=>$shopService
+            ]);
+        }
+    }
+
+    public function shopInfo($shop_id)
+    {
+        $shopInfo = DB::table('shops')->where("shop_id", $shop_id)->get();
+        return response()->json([
+            'item'=>$shopInfo
+        ]);
+    }
+
 }
