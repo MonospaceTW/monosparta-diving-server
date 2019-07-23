@@ -8,6 +8,7 @@ use Illuminate\Support\Facades\DB;
 
 class TaskController extends Controller
 {
+    /*==========spot search API==========*/
     public function spotIndex()
     {
         $site = DB::table('spot_list')->orderBy("spot_id", "desc")->get();
@@ -41,18 +42,18 @@ class TaskController extends Controller
             'item'=>$spotInfo
         ]);
     }
-    /*====================*/
-    /*====================*/
+    /*==========spot search API end==========*/
 
+    /*==========shop search API==========*/
     public function shopIndex()
     {
-        $shop = DB::table('shops')->orderBy("shop_id", "desc")->get();
+        $shop = DB::table('shops')->orderBy("shop_id", "desc")->get(['shop_id','shop_name','shop_address','shop_imgs']);
         return response()->json([
             'item'=>$shop
         ]);
     }
 
-    public function searchShop(Request $request)
+    public function shopSearch(Request $request)
     {
         if ($request->location) {
             $parm = $request->location;
@@ -77,5 +78,5 @@ class TaskController extends Controller
             'item'=>$shopInfo
         ]);
     }
-
+    /*==========shop search API end==========*/
 }
