@@ -13,11 +13,12 @@ class RebuildDB extends Migration
      */
     public function up()
     {
-        Schema::dropIfExists('spots');
-        Schema::dropIfExists('shops');
-        Schema::dropIfExists('users');
-        Schema::dropIfExists('comments');
-        Schema::dropIfExists('divingLogs');
+        // Schema::disableForeignKeyConstraints();
+        // Schema::dropIfExists('spots');
+        // Schema::dropIfExists('shops');
+        // Schema::dropIfExists('users');
+        // Schema::dropIfExists('comments');
+        // Schema::dropIfExists('divingLogs');
 
         Schema::create('spots', function (Blueprint $table) {
             $table->charset = 'utf8mb4';
@@ -58,9 +59,9 @@ class RebuildDB extends Migration
             $table->collate = 'utf8mb4_unicode_ci';
             $table->bigIncrements('id');
             $table->timestamps();
-            $table->string('userName', 20);
-            $table->string('password', 10);
-            $table->string('email', 30);
+            $table->string('userName');
+            $table->string('password');
+            $table->string('email');
         });
 
         Schema::create('comments', function (Blueprint $table) {

@@ -6,6 +6,8 @@ use Illuminate\Http\Request;
 
 use Illuminate\Support\Facades\DB;
 
+use app\Task;
+
 class TaskController extends Controller
 {
     public function spotIndex()
@@ -46,7 +48,7 @@ class TaskController extends Controller
 
     public function shopIndex()
     {
-        $shop = DB::table('shops')->orderBy("shop_id", "desc")->get();
+        $shop = DB::table('testShops')->orderBy("shop_id", "desc")->get();
         return response()->json([
             'item'=>$shop
         ]);
@@ -56,14 +58,14 @@ class TaskController extends Controller
     {
         if ($request->location) {
             $parm = $request->location;
-            $shopLocation = DB::table('shops')->where("location", $parm)->get();
+            $shopLocation = DB::table('testShops')->where("location", $parm)->get();
             return response()->json([
                 'item'=>$shopLocation
             ]);
         }
         if ($request->service) {
             $parm = $request->service;
-            $shopService = DB::table('shops')->where("shop_service","LIKE", "%".$parm."%")->get();
+            $shopService = DB::table('testShops')->where("shop_service","LIKE", "%".$parm."%")->get();
             return response()->json([
                 'item'=>$shopService
             ]);
@@ -72,7 +74,7 @@ class TaskController extends Controller
 
     public function shopInfo($shop_id)
     {
-        $shopInfo = DB::table('shops')->where("shop_id", $shop_id)->get();
+        $shopInfo = DB::table('testShops')->where("shop_id", $shop_id)->get();
         return response()->json([
             'item'=>$shopInfo
         ]);
