@@ -15,7 +15,7 @@ use Illuminate\Http\Request;
 
 /*==========Search API Route==========*/
 Route::get("sites/", "TaskController@spotIndex");
-Route::get("sites/search/", "TaskController@search");
+Route::get("sites/search/", "TaskController@spotSearch");
 Route::get("sites/{spot_id}", "TaskController@spotInfo");
 Route::get("shops/", "TaskController@shopIndex");
 Route::get("shops/search/","TaskController@shopSearch");
