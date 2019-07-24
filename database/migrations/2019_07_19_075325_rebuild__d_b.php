@@ -29,13 +29,14 @@ class RebuildDB extends Migration
             $table->char('location', 5);
             $table->char('name', 10);
             $table->text('description');
-            $table->float('longitude', 6, 3);
-            $table->float('latitude', 6, 3);
-            $table->longText('img1');
-            $table->longText('img2');
-            $table->longText('img3');
-            $table->longText('img4');
-            $table->longText('img5');
+            $table->char('longitude', 10)->nullable();;
+            $table->char('latitude', 10)->nullable();;
+            $table->tinyInteger('avgRate')->nullable();;
+            $table->longText('img1')->nullable();
+            $table->longText('img2')->nullable();;
+            $table->longText('img3')->nullable();;
+            $table->longText('img4')->nullable();;
+            $table->longText('img5')->nullable();;
         });
 
         Schema::create('shops', function (Blueprint $table) {
@@ -47,6 +48,17 @@ class RebuildDB extends Migration
             $table->char('location', 5);
             $table->char('name', 10);
             $table->text('description');
+            $table->tinyInteger('avgRate')->nullable();
+            $table->text('bh')->nullable();
+            $table->string('county')->nullable();
+            $table->string('district')->nullable();
+            $table->string('address')->nullable();
+            $table->char('phone1', 12)->nullable();
+            $table->char('phone2', 12)->nullable();
+            $table->longText('web1')->nullable();
+            $table->longText('web2')->nullable();
+            $table->char('longitude', 10);
+            $table->char('latitude', 10);
             $table->longText('img1');
             $table->longText('img2');
             $table->longText('img3');
@@ -71,9 +83,9 @@ class RebuildDB extends Migration
             $table->timestamps();
             $table->text('comment');
             $table->tinyInteger('rating');
-            $table->bigInteger('user_id')->unsigned();
-            $table->bigInteger('shop_id')->unsigned();
-            $table->bigInteger('spot_id')->unsigned();
+            $table->bigInteger('user_id')->unsigned()->nullable();;
+            $table->bigInteger('shop_id')->unsigned()->nullable();;
+            $table->bigInteger('spot_id')->unsigned()->nullable();;
             $table->foreign('user_id')->references('id')->on('users');
             $table->foreign('shop_id')->references('id')->on('shops');
             $table->foreign('spot_id')->references('id')->on('spots');
