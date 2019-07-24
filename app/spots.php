@@ -25,4 +25,10 @@ class spots extends Model
         'img4',
         'img5',
     ];
+
+    public function comments()
+    {
+        # code...
+        return $this->hasMany('app\comments', 'spot_id');
+    }
 }
