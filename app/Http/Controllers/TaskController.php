@@ -6,41 +6,91 @@ use Illuminate\Http\Request;
 
 use Illuminate\Support\Facades\DB;
 
+use app\Task;
+
 class TaskController extends Controller
 {
-    public function index()
+    /*==========spot search API==========*/
+    public function spotIndex()
     {
-        $site = DB::table('spot_list')->orderBy("spot_id", "desc")->get();
+        $site = DB::table('spots')->orderBy("id", "desc")->get([
+            'id',
+            'name',
+            'county',
+            'district',
+            'img1'
+        ]);
         return response()->json([
             'item'=>$site
         ]);
     }
-    
-    public function search(Request $request)
+
+    public function spotSearch(Request $request)
     {
         if ($request->location) {
             $parm = $request->location;
-            $site = DB::table('spot_list')->where("location", $parm)->get();
+            $siteLocation = DB::table('spots')->where("location", $parm)->get();
             return response()->json([
-                'item'=>$site
+                'item'=>$siteLocation
             ]);
         }
         if ($request->level) {
             $parm = $request->level;
-            $site = DB::table('spot_list')->where("level", $parm)->get();
+            $siteLevel = DB::table('spots')->where("level", $parm)->get();
             return response()->json([
-                'item'=>$site
+                'item'=>$siteLevel
             ]);
         }
-
     }
 
-    public function spotInfo($spot_id)
+    public function spotInfo($spotId)
     {
-        $spotInfo = DB::table('spot_info')->where("spot_id", $spot_id)->get();
+        $spotInfo = DB::table('spots')->where("id", $spotId)->get();
         return response()->json([
             'item'=>$spotInfo
         ]);
     }
-        //
+    /*==========spot search API end==========*/
+
+    /*==========shop search API==========*/
+    public function shopIndex()
+    {
+        $shop = DB::table('shops')->orderBy("id", "desc")->get([
+            'id',
+            'name',
+            'county',
+            'district',
+            'img1'
+            ]);
+        return response()->json([
+            'item'=>$shop
+        ]);
+    }
+
+    public function shopSearch(Request $request)
+    {
+        if ($request->location) {
+            $parm = $request->location;
+            $shopLocation = DB::table('shops')->where("location", $parm)->get();
+            return response()->json([
+                'item'=>$shopLocation
+            ]);
+        }
+        if ($request->service) {
+            $parm = $request->service;
+            $shopService = DB::table('shops')->where("service","LIKE", "%".$parm."%")->get();
+            return response()->json([
+                'item'=>$shopService
+            ]);
+        }
+    }
+
+    public function shopInfo($shopId)
+    {
+        $shopInfo = DB::table('shops')->where("id", $shopId)->get();
+        return response()->json([
+            'item'=>$shopInfo
+        ]);
+    }
+    /*==========shop search API end==========*/
 }
