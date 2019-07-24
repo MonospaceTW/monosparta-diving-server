@@ -28,15 +28,17 @@ class RebuildDB extends Migration
             $table->char('level', 6);
             $table->char('location', 5);
             $table->char('name', 10);
+            $table->string('county')->nullable();
+            $table->string('district')->nullable();
             $table->text('description');
-            $table->char('longitude', 10)->nullable();;
-            $table->char('latitude', 10)->nullable();;
-            $table->tinyInteger('avgRate')->nullable();;
+            $table->char('longitude', 10)->nullable();
+            $table->char('latitude', 10)->nullable();
+            $table->tinyInteger('avgRate')->nullable();
             $table->longText('img1')->nullable();
-            $table->longText('img2')->nullable();;
-            $table->longText('img3')->nullable();;
-            $table->longText('img4')->nullable();;
-            $table->longText('img5')->nullable();;
+            $table->longText('img2')->nullable();
+            $table->longText('img3')->nullable();
+            $table->longText('img4')->nullable();
+            $table->longText('img5')->nullable();
         });
 
         Schema::create('shops', function (Blueprint $table) {

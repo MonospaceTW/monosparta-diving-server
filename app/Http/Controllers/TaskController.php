@@ -8,6 +8,10 @@ use Illuminate\Support\Facades\DB;
 
 use app\Task;
 
+use App\shops;
+use App\spots;
+
+
 class TaskController extends Controller
 {
     /*==========spot search API==========*/
@@ -27,19 +31,30 @@ class TaskController extends Controller
 
     public function spotSearch(Request $request)
     {
-        if ($request->location) {
-            $parm = $request->location;
-            $siteLocation = DB::table('spots')->where("location", $parm)->get();
+        if ($request->location&&$request->level) {
+            $location = $request->location;
+            $level = $request->level;
+            $siteLocation = spots::where("location", $location)->where("level", $level)->get();
             return response()->json([
                 'item'=>$siteLocation
             ]);
         }
-        if ($request->level) {
-            $parm = $request->level;
-            $siteLevel = DB::table('spots')->where("level", $parm)->get();
-            return response()->json([
-                'item'=>$siteLevel
-            ]);
+        else {
+            # code...
+            if ($request->location) {
+                $parm = $request->location;
+                $siteLocation = spots::where("location", $parm)->get();
+                return response()->json([
+                    'item'=>$siteLocation
+                ]);
+            }
+            if ($request->level) {
+                $parm = $request->level;
+                $siteLevel = spots::where("level", $parm)->get();
+                return response()->json([
+                    'item'=>$siteLevel
+                ]);
+            }
         }
     }
 
@@ -69,19 +84,30 @@ class TaskController extends Controller
 
     public function shopSearch(Request $request)
     {
-        if ($request->location) {
-            $parm = $request->location;
-            $shopLocation = DB::table('shops')->where("location", $parm)->get();
+        if ($request->location&&$request->service){
+            $location = $request->location;
+            $service = $request->service;
+            $item = shops::where("location", $location)->where("service", $service)->get();
             return response()->json([
-                'item'=>$shopLocation
+                'item'=>$item
             ]);
         }
-        if ($request->service) {
-            $parm = $request->service;
-            $shopService = DB::table('shops')->where("service","LIKE", "%".$parm."%")->get();
-            return response()->json([
-                'item'=>$shopService
-            ]);
+        else {
+            # code...
+            if ($request->location) {
+                $parm = $request->location;
+                $shopLocation =shops::where("location", $parm)->get();
+                return response()->json([
+                    'item'=>$shopLocation
+                ]);
+            }
+            if ($request->service) {
+                $parm = $request->service;
+                $shopService = shops::where("service","LIKE", "%".$parm."%")->get();
+                return response()->json([
+                    'item'=>$shopService
+                ]);
+            }
         }
     }
 
