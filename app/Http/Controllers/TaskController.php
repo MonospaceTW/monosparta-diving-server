@@ -66,9 +66,11 @@ class TaskController extends Controller
         $spotInfo = spot::where("id", $spotId)->get();
         // add comment search
         $comment = comment::where("spot_id", $spotId)->with("User")->get();
+        $comment2 = comment::where("spot_id", $spotId)->get();
         return response()->json([
             'item' => $spotInfo,
-            'comment' => $comment
+            'comment' => $comment,
+            'comment2' => $comment2
         ]);
     }
     /*==========spot search API end==========*/
@@ -119,10 +121,12 @@ class TaskController extends Controller
     public function shopInfo($shopId)
     {
         $shopInfo = shop::where("id", $shopId)->get();
-        $comment = comment::where("spot_id", $shopId)->with("User")->get();
+        $comment = comment::where("shop_id", $shopId)->with("User")->get();
+        $comment2 = comment::where("shop_id", $shopId)->get();
         return response()->json([
-            'item'=>$shopInfo,
-            'comment'=>$comment
+            'item' => $shopInfo,
+            'comment' => $comment,
+            'comment2' => $comment2
         ]);
     }
     /*==========shop search API end==========*/
