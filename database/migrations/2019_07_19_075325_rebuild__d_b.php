@@ -13,13 +13,6 @@ class RebuildDB extends Migration
      */
     public function up()
     {
-        // Schema::disableForeignKeyConstraints();
-        // Schema::dropIfExists('spots');
-        // Schema::dropIfExists('shops');
-        // Schema::dropIfExists('users');
-        // Schema::dropIfExists('comments');
-        // Schema::dropIfExists('divingLogs');
-
         Schema::create('spots', function (Blueprint $table) {
             $table->charset = 'utf8mb4';
             $table->collate = 'utf8mb4_unicode_ci';
