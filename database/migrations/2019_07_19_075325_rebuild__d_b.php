@@ -29,6 +29,8 @@ class RebuildDB extends Migration
             $table->char('location', 5);
             $table->char('name', 10);
             $table->text('description');
+            $table->string('county')->nullable();
+            $table->string('district')->nullable();
             $table->char('longitude', 10)->nullable();;
             $table->char('latitude', 10)->nullable();;
             $table->tinyInteger('avgRate')->nullable();;

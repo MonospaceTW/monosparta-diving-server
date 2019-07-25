@@ -29,6 +29,6 @@ class spots extends Model
     public function comments()
     {
         # code...
-        return $this->hasMany('app\comments', 'spot_id');
+        return $this->hasMany(comments::class);
     }
 }

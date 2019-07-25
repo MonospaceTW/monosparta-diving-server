@@ -23,6 +23,10 @@ Route::get("shops/search/","TaskController@shopSearch");
 Route::get("shops/{shop_id}", "TaskController@shopInfo");
 /*==========Search API Route end==========*/
 
+/*==========comment API Route ==========*/
+Route::post("comment", "TaskController@addComment");
+/*==========comment API Route ==========*/
+
 Route::fallback(function(){
     return response()->json(['message' => 'Not Found!'], 404);
 });

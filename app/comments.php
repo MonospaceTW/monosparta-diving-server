@@ -6,17 +6,18 @@ use Illuminate\Database\Eloquent\Model;
 
 class comments extends Model
 {
-    //
-    // public function User()
-    // {
-    //     # code...
-    //     return $this->belongsTo('app\User', 'User_id');
-    // }
+    // data insert blacklist
+    protected $guarded = [];
 
-    public function spots()
+    // define relationship
+    public function User()
     {
-        # code...
-        return $this->belongsTo('app\spots', 'spot_id');
+        return $this->belongsTo(User::class)->select(array('id', 'userName', 'email'));
+    }
+
+    public function spot()
+    {
+        return $this->belongsTo(spots::class)->select(array('id'));
     }
 
     // public function shops()
