@@ -14,6 +14,10 @@ use App\shop;
 
 use App\comment;
 
+use App\shops;
+use App\spots;
+
+
 class TaskController extends Controller
 {
     /*==========spot search API==========*/
