@@ -13,7 +13,7 @@ class RebuildDB extends Migration
      */
     public function up()
     {
-        Schema::create('spot', function (Blueprint $table) {
+        Schema::create('spots', function (Blueprint $table) {
             $table->charset = 'utf8mb4';
             $table->collate = 'utf8mb4_unicode_ci';
             $table->bigIncrements('id');
@@ -34,7 +34,7 @@ class RebuildDB extends Migration
             $table->longText('img5')->nullable();
         });
 
-        Schema::create('shop', function (Blueprint $table) {
+        Schema::create('shops', function (Blueprint $table) {
             $table->charset = 'utf8mb4';
             $table->collate = 'utf8mb4_unicode_ci';
             $table->bigIncrements('id');
@@ -61,7 +61,7 @@ class RebuildDB extends Migration
             $table->longText('img5');
         });
 
-        Schema::create('user', function (Blueprint $table) {
+        Schema::create('users', function (Blueprint $table) {
             $table->charset = 'utf8mb4';
             $table->collate = 'utf8mb4_unicode_ci';
             $table->bigIncrements('id');
@@ -71,7 +71,7 @@ class RebuildDB extends Migration
             $table->string('email');
         });
 
-        Schema::create('comment', function (Blueprint $table) {
+        Schema::create('comments', function (Blueprint $table) {
             $table->charset = 'utf8mb4';
             $table->collate = 'utf8mb4_unicode_ci';
             $table->bigIncrements('id');
@@ -81,12 +81,12 @@ class RebuildDB extends Migration
             $table->bigInteger('user_id')->unsigned()->nullable();;
             $table->bigInteger('shop_id')->unsigned()->nullable();;
             $table->bigInteger('spot_id')->unsigned()->nullable();;
-            $table->foreign('user_id')->references('id')->on('user');
-            $table->foreign('shop_id')->references('id')->on('shop');
-            $table->foreign('spot_id')->references('id')->on('spot');
+            $table->foreign('user_id')->references('id')->on('users');
+            $table->foreign('shop_id')->references('id')->on('shops');
+            $table->foreign('spot_id')->references('id')->on('spots');
         });
 
-        Schema::create('log', function (Blueprint $table) {
+        Schema::create('logs', function (Blueprint $table) {
             $table->charset = 'utf8mb4';
             $table->collate = 'utf8mb4_unicode_ci';
             $table->bigIncrements('id');
@@ -125,10 +125,10 @@ class RebuildDB extends Migration
     public function down()
     {
         Schema::disableForeignKeyConstraints();
-        Schema::dropIfExists('spot');
-        Schema::dropIfExists('shop');
-        Schema::dropIfExists('user');
-        Schema::dropIfExists('comment');
-        Schema::dropIfExists('log');
+        Schema::dropIfExists('spots');
+        Schema::dropIfExists('shops');
+        Schema::dropIfExists('users');
+        Schema::dropIfExists('comments');
+        Schema::dropIfExists('logs');
     }
 }
