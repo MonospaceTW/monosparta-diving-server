@@ -26,7 +26,7 @@ class RebuildDB extends Migration
             $table->string('district')->nullable();
             $table->char('longitude', 10)->nullable();;
             $table->char('latitude', 10)->nullable();;
-            $table->tinyInteger('avgRate')->nullable();;
+            $table->tinyInteger('avg_rate')->nullable();;
             $table->longText('img1')->nullable();
             $table->longText('img2')->nullable();;
             $table->longText('img3')->nullable();;
@@ -86,7 +86,7 @@ class RebuildDB extends Migration
             $table->foreign('spot_id')->references('id')->on('spots');
         });
 
-        Schema::create('divingLogs', function (Blueprint $table) {
+        Schema::create('log', function (Blueprint $table) {
             $table->charset = 'utf8mb4';
             $table->collate = 'utf8mb4_unicode_ci';
             $table->bigIncrements('id');
@@ -98,8 +98,8 @@ class RebuildDB extends Migration
             $table->tinyInteger('max_depth');
             $table->tinyInteger('avg_depth');
             $table->char('time', 5);
-            $table->unsignedTinyInteger('init_airPressure');
-            $table->unsignedTinyInteger('end_airPressure');
+            $table->unsignedTinyInteger('init_air_pressure');
+            $table->unsignedTinyInteger('end_air_pressure');
             $table->tinyInteger('percentage_of_oxygen');
             $table->tinyInteger('air_volume');
             $table->char('scuba_tank', 2);
