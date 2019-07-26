@@ -15,12 +15,12 @@ use Illuminate\Http\Request;
 
 
 /*==========Search API Route==========*/
-Route::get("sites/", "TaskController@spotIndex");
-Route::get("sites/search/", "TaskController@spotSearch");
-Route::get("sites/{spot_id}", "TaskController@spotInfo");
-Route::get("shops/", "TaskController@shopIndex");
-Route::get("shops/search/","TaskController@shopSearch");
-Route::get("shops/{shop_id}", "TaskController@shopInfo");
+Route::get("spot/", "TaskController@spotIndex");
+Route::get("spot/search/", "TaskController@spotSearch");
+Route::get("spot/{spot_id}", "TaskController@spotInfo");
+Route::get("shop/", "TaskController@shopIndex");
+Route::get("shop/search/","TaskController@shopSearch");
+Route::get("shop/{shop_id}", "TaskController@shopInfo");
 /*==========Search API Route end==========*/
 
 /*==========comment API Route ==========*/

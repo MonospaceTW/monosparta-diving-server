@@ -19,7 +19,7 @@ class TaskController extends Controller
     /*==========spot search API==========*/
     public function spotIndex()
     {
-        $site = spot::orderBy("id", "desc")->get([
+        $spot = spot::orderBy("id", "desc")->get([
             'id',
             'name',
             'county',
@@ -27,7 +27,7 @@ class TaskController extends Controller
             'img1'
         ]);
         return response()->json([
-            'item'=>$site
+            'item'=>$spot
         ]);
     }
 
@@ -36,24 +36,24 @@ class TaskController extends Controller
         if ($request->location&&$request->level) {
             $location = $request->location;
             $level = $request->level;
-            $siteLocation = spot::where("location", $location)->where("level", $level)->get();
+            $spotLocation = spot::where("location", $location)->where("level", $level)->get();
             return response()->json([
-                'item'=>$siteLocation
+                'item'=>$spotLocation
             ]);
         }
         else {
             if ($request->location) {
                 $parm = $request->location;
-                $siteLocation = spot::where("location", $parm)->get();
+                $spotLocation = spot::where("location", $parm)->get();
                 return response()->json([
-                    'item'=>$siteLocation
+                    'item'=>$spotLocation
                 ]);
             }
             if ($request->level) {
                 $parm = $request->level;
-                $siteLevel = spot::where("level", $parm)->get();
+                $spotLevel = spot::where("level", $parm)->get();
                 return response()->json([
-                    'item'=>$siteLevel
+                    'item'=>$spotLevel
                 ]);
             }
         }
@@ -91,9 +91,9 @@ class TaskController extends Controller
         if ($request->location&&$request->service){
             $location = $request->location;
             $service = $request->service;
-            $item = shop::where("location", $location)->where("service", $service)->get();
+            $shopLocation = shop::where("location", $location)->where("service", $service)->get();
             return response()->json([
-                'item'=>$item
+                'item'=>$shopLocation
             ]);
         }
         else {
