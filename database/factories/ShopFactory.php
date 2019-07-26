@@ -2,10 +2,10 @@
 
 /** @var  \Illuminate\Database\Eloquent\Factory $factory*/
 
-use App\shops;
+use App\shop;
 use Faker\Generator as Faker;
 
-$factory->define(shops::class, function (Faker $faker) {
+$factory->define(shop::class, function (Faker $faker) {
     return [
         //
         'service' => str_random(10),

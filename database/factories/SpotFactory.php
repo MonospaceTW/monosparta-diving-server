@@ -2,11 +2,11 @@
 
 /** @var \Illuminate\Database\Eloquent\Factory $factory */
 
-use App\spots;
+use App\spot;
 use Faker\Generator as Faker;
 use Illuminate\Support\Str;
 
-$factory->define(spots::class, function (Faker $faker) {
+$factory->define(spot::class, function (Faker $faker) {
     // $faker = Faker\Factory::create('zh_TW');
     return [
         //

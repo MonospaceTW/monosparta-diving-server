@@ -2,11 +2,11 @@
 
 /** @var $factory \Illuminate\Database\Eloquent\Factory */
 
-use App\comments;
+use App\comment;
 use Faker\Generator as Faker;
 
-$factory->define(comments::class, function (Faker $faker) {
-    $spots = App\spots::pluck('id')->toArray();
+$factory->define(comment::class, function (Faker $faker) {
+    $spots = App\spot::pluck('id')->toArray();
     $user = App\User::pluck('id')->toArray();
     return [
         //

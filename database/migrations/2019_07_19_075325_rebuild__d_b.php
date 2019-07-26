@@ -21,8 +21,6 @@ class RebuildDB extends Migration
             $table->char('level', 6);
             $table->char('location', 5);
             $table->char('name', 10);
-            $table->string('county')->nullable();
-            $table->string('district')->nullable();
             $table->text('description');
             $table->string('county')->nullable();
             $table->string('district')->nullable();
@@ -83,9 +81,9 @@ class RebuildDB extends Migration
             $table->bigInteger('user_id')->unsigned()->nullable();;
             $table->bigInteger('shop_id')->unsigned()->nullable();;
             $table->bigInteger('spot_id')->unsigned()->nullable();;
-            $table->foreign('user_id')->references('id')->on('users');
-            $table->foreign('shop_id')->references('id')->on('shops');
-            $table->foreign('spot_id')->references('id')->on('spots');
+            $table->foreign('user_id')->references('id')->on('user');
+            $table->foreign('shop_id')->references('id')->on('shop');
+            $table->foreign('spot_id')->references('id')->on('spot');
         });
 
         Schema::create('log', function (Blueprint $table) {
