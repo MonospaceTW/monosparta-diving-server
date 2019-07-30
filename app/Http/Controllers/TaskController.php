@@ -8,22 +8,18 @@ use Illuminate\Support\Facades\DB;
 
 use App\User;
 
-use App\spot;
+use App\Spot;
 
-use App\shop;
+use App\Shop;
 
-use App\comment;
-
-use App\shops;
-use App\spots;
-
+use App\Comment;
 
 class TaskController extends Controller
 {
     /*==========spot search API==========*/
     public function spotIndex()
     {
-        $spot = spot::orderBy("id", "desc")->get([
+        $spot = Spot::orderBy("id", "desc")->get([
             'id',
             'name',
             'county',
@@ -40,7 +36,7 @@ class TaskController extends Controller
         if ($request->location&&$request->level) {
             $location = $request->location;
             $level = $request->level;
-            $spotLocation = spot::where("location", $location)->where("level", $level)->get();
+            $spotLocation = Spot::where("location", $location)->where("level", $level)->get();
             return response()->json([
                 'item'=>$spotLocation
             ]);
@@ -48,14 +44,14 @@ class TaskController extends Controller
         else {
             if ($request->location) {
                 $parm = $request->location;
-                $spotLocation = spot::where("location", $parm)->get();
+                $spotLocation = Spot::where("location", $parm)->get();
                 return response()->json([
                     'item'=>$spotLocation
                 ]);
             }
             if ($request->level) {
                 $parm = $request->level;
-                $spotLevel = spot::where("level", $parm)->get();
+                $spotLevel = Spot::where("level", $parm)->get();
                 return response()->json([
                     'item'=>$spotLevel
                 ]);
@@ -65,9 +61,9 @@ class TaskController extends Controller
 
     public function spotInfo($spotId)
     {
-        $spotInfo = spot::where("id", $spotId)->get();
+        $spotInfo = Spot::where("id", $spotId)->get();
         // add comment search
-        $comment = comment::where("spot_id", $spotId)->with("User")->get();
+        $comment = Comment::where("spot_id", $spotId)->with("User")->get();
         return response()->json([
             'item' => $spotInfo,
             'comment' => $comment,
@@ -78,7 +74,7 @@ class TaskController extends Controller
     /*==========shop search API==========*/
     public function shopIndex()
     {
-        $shop = shop::orderBy("id", "desc")->get([
+        $shop = Shop::orderBy("id", "desc")->get([
             'id',
             'name',
             'county',
@@ -95,7 +91,7 @@ class TaskController extends Controller
         if ($request->location&&$request->service){
             $location = $request->location;
             $service = $request->service;
-            $shopLocation = shop::where("location", $location)->where("service", $service)->get();
+            $shopLocation = Shop::where("location", $location)->where("service","LIKE", "%".$service."%")->get();
             return response()->json([
                 'item'=>$shopLocation
             ]);
@@ -103,14 +99,14 @@ class TaskController extends Controller
         else {
             if ($request->location) {
                 $parm = $request->location;
-                $shopLocation =shop::where("location", $parm)->get();
+                $shopLocation =Shop::where("location", $parm)->get();
                 return response()->json([
                     'item'=>$shopLocation
                 ]);
             }
             if ($request->service) {
                 $parm = $request->service;
-                $shopService = shop::where("service","LIKE", "%".$parm."%")->get();
+                $shopService = Shop::where("service","LIKE", "%".$parm."%")->get();
                 return response()->json([
                     'item'=>$shopService
                 ]);
@@ -120,8 +116,8 @@ class TaskController extends Controller
 
     public function shopInfo($shopId)
     {
-        $shopInfo = shop::where("id", $shopId)->get();
-        $comment = comment::where("shop_id", $shopId)->with("User")->get();
+        $shopInfo = Shop::where("id", $shopId)->get();
+        $comment = Comment::where("shop_id", $shopId)->with("User")->get();
         return response()->json([
             'item' => $shopInfo,
             'comment' => $comment,
@@ -133,11 +129,25 @@ class TaskController extends Controller
 
     public function addComment(Request $request)
     {
-        $comment = comment::create($request->all());
+        $input = $request->all();
+        $insert = Comment::create([
+            'comment' => $input['comment'],
+            'rating' => $input['rating']
+            ]);
+        $commentId = $insert->id;
+        // $spot = Spot::find($input['spot_id']);
+        // $spot->comments()->attach($commentId);
+        $comment = Comment::find($commentId);
+        $comment->Spots()->attach($input['spot_id']);
         return response()->json([
             "code" => 200,
             "message" => "comment added successfully",
-            "comment" => $comment
+            "comment" => $insert,
+            "input" => $input,
+            // "spot" => $spot,
+            "result" => $comment,
+            "commentId" => $commentId
         ]);
+
     }
 }

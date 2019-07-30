@@ -78,12 +78,6 @@ class RebuildDB extends Migration
             $table->timestamps();
             $table->text('comment');
             $table->tinyInteger('rating');
-            $table->bigInteger('user_id')->unsigned()->nullable();;
-            $table->bigInteger('shop_id')->unsigned()->nullable();;
-            $table->bigInteger('spot_id')->unsigned()->nullable();;
-            $table->foreign('user_id')->references('id')->on('users');
-            $table->foreign('shop_id')->references('id')->on('shops');
-            $table->foreign('spot_id')->references('id')->on('spots');
         });
 
         Schema::create('logs', function (Blueprint $table) {

@@ -4,7 +4,7 @@ namespace App;
 
 use Illuminate\Database\Eloquent\Model;
 
-class comment extends Model
+class Comment extends Model
 {
     // data insert blacklist
     protected $guarded = [];
@@ -15,13 +15,13 @@ class comment extends Model
         return $this->belongsTo(User::class)->select(array('id', 'userName', 'email'));
     }
 
-    public function spot()
+    public function Spots()
     {
-        return $this->belongsTo(spot::class);
+        return $this->belongsToMany(Spot::class);
     }
 
-    public function shops()
+    public function Shops()
     {
-        return $this->belongsTo(shop::class);
+        return $this->belongsTo(Shop::class);
     }
 }

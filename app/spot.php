@@ -4,7 +4,7 @@ namespace App;
 
 use Illuminate\Database\Eloquent\Model;
 
-class spot extends Model
+class Spot extends Model
 {
     //
     /**
@@ -28,6 +28,6 @@ class spot extends Model
 
     public function comments()
     {
-        return $this->hasMany(comment::class)->select(array('spot_id','comment','rating'));
+        return $this->hasMany(Comment::class)->select(array('spot_id','comment','rating'));
     }
 }

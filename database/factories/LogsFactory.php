@@ -2,10 +2,10 @@
 
 /** @var $factory \Illuminate\Database\Eloquent\Factory */
 
-use App\divingLog;
+use App\log;
 use Faker\Generator as Faker;
 
-$factory->define(divingLog::class, function (Faker $faker) {
+$factory->define(log::class, function (Faker $faker) {
     return [
         //
     ];

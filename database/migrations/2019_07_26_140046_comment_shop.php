@@ -4,7 +4,7 @@ use Illuminate\Support\Facades\Schema;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Database\Migrations\Migration;
 
-class CreateArticlesTable extends Migration
+class CommentShop extends Migration
 {
     /**
      * Run the migrations.
@@ -13,13 +13,13 @@ class CreateArticlesTable extends Migration
      */
     public function up()
     {
-        Schema::create('articles', function (Blueprint $table) {
+        Schema::create('comment_shop', function (Blueprint $table) {
             $table->bigIncrements('id');
             $table->timestamps();
-            $table->string('title');
-            $table->text('img');
-            // $table->
-
+            $table->unsignedBigInteger('comment_id');
+            $table->unsignedBigInteger('shop_id');
+            $table->foreign('comment_id')->references('id')->on('comments');
+            $table->foreign('shop_id')->references('id')->on('shops');
         });
     }
 
@@ -30,6 +30,6 @@ class CreateArticlesTable extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('articles');
+        Schema::dropIfExists('comment_shop');
     }
 }

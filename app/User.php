@@ -39,6 +39,6 @@ class User extends Authenticatable
     //user controller
     public function comments()
     {
-        return $this->hasMany(comment::class);
+        return $this->hasMany(Comment::class);
     }
 }
