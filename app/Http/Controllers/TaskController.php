@@ -4,8 +4,6 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 
-use Illuminate\Support\Facades\DB;
-
 use App\User;
 
 use App\spot;
@@ -14,13 +12,22 @@ use App\shop;
 
 use App\comment;
 
-use App\shops;
-use App\spots;
+use App\article;
 
 
 class TaskController extends Controller
 {
     /*==========spot search API==========*/
+    //random five spots for home page
+    public function spotRandom()
+    {
+        $spotRandom= spot::inRandomOrder()->take(5)->get();
+        return response()->json([
+            'item'=>$spotRandom
+        ]);
+    }
+
+    //show list of all spots for search
     public function spotIndex()
     {
         $spot = spot::orderBy("id", "desc")->get([
@@ -31,18 +38,19 @@ class TaskController extends Controller
             'img1'
         ]);
         return response()->json([
-            'item'=>$spot
+            'item' => $spot
         ]);
     }
 
+    //show list of spots with location and level for search
     public function spotSearch(Request $request)
     {
-        if ($request->location&&$request->level) {
+        if ($request->location && $request->level) {
             $location = $request->location;
             $level = $request->level;
-            $spotLocation = spot::where("location", $location)->where("level", $level)->get();
+            $spotResult = spot::where("location", $location)->where("level", $level)->get();
             return response()->json([
-                'item'=>$spotLocation
+                'item' => $spotResult
             ]);
         }
         else {
@@ -50,19 +58,20 @@ class TaskController extends Controller
                 $parm = $request->location;
                 $spotLocation = spot::where("location", $parm)->get();
                 return response()->json([
-                    'item'=>$spotLocation
+                    'item' => $spotLocation
                 ]);
             }
             if ($request->level) {
                 $parm = $request->level;
                 $spotLevel = spot::where("level", $parm)->get();
                 return response()->json([
-                    'item'=>$spotLevel
+                    'item' => $spotLevel
                 ]);
             }
         }
     }
 
+    //show certain information of a spot
     public function spotInfo($spotId)
     {
         $spotInfo = spot::where("id", $spotId)->get();
@@ -76,6 +85,16 @@ class TaskController extends Controller
     /*==========spot search API end==========*/
 
     /*==========shop search API==========*/
+    //random five shops for home page
+    public function shopRandom()
+    {
+        $shopRandom = shop::inRandomOrder()->take(5)->get();
+        return response()->json([
+            'item' => $shopRandom
+        ]);
+    }
+
+    //show list of all shops for search
     public function shopIndex()
     {
         $shop = shop::orderBy("id", "desc")->get([
@@ -86,18 +105,19 @@ class TaskController extends Controller
             'img1'
             ]);
         return response()->json([
-            'item'=>$shop
+            'item' => $shop
         ]);
     }
 
+    //show list of shops with location and service for search
     public function shopSearch(Request $request)
     {
-        if ($request->location&&$request->service){
+        if ($request->location && $request->service){
             $location = $request->location;
             $service = $request->service;
-            $shopLocation = shop::where("location", $location)->where("service", $service)->get();
+            $shopResult = shop::where("location", $location)->where("service","LIKE", "%".$service."%")->get();
             return response()->json([
-                'item'=>$shopLocation
+                'item' => $shopResult
             ]);
         }
         else {
@@ -105,19 +125,20 @@ class TaskController extends Controller
                 $parm = $request->location;
                 $shopLocation =shop::where("location", $parm)->get();
                 return response()->json([
-                    'item'=>$shopLocation
+                    'item' => $shopLocation
                 ]);
             }
             if ($request->service) {
                 $parm = $request->service;
                 $shopService = shop::where("service","LIKE", "%".$parm."%")->get();
                 return response()->json([
-                    'item'=>$shopService
+                    'item' => $shopService
                 ]);
             }
         }
     }
 
+    //show certain information of a shop
     public function shopInfo($shopId)
     {
         $shopInfo = shop::where("id", $shopId)->get();
@@ -128,6 +149,59 @@ class TaskController extends Controller
         ]);
     }
     /*==========shop search API end==========*/
+
+    /*==========keyword search API==========*/
+    public function keywordSearch($keyword)
+    {
+        $decodeKeyword = urldecode($keyword);//decode keyword from frontend
+        $spotResult = spot::where("name","LIKE","%".$decodeKeyword."%")->orWhere("description","LIKE","%".$decodeKeyword."%")->get();
+        $shopResult = shop::where("name","LIKE","%".$decodeKeyword."%")->orWhere("description","LIKE","%".$decodeKeyword."%")->get();
+        $articleResult = article::where("title","LIKE","%".$decodeKeyword."%")->orWhere("content","LIKE","%".$decodeKeyword."%")->get();
+
+        return response()->json([
+            'spot' => $spotResult,
+            'shop' => $shopResult,
+            'article' => $articleResult,
+        ]);
+    }
+    /*==========keyword search API end==========*/
+
+    /*==========article API==========*/
+    //show list of all articles
+    public function articleIndex(){
+        $articleList = article::orderBy("id", "desc")->get();
+        return response()->json([
+            'item'=>$articleList
+        ]);
+    }
+
+    //random five articles for home page
+    public function articleRandom()
+    {
+        $random = article::inRandomOrder()->take(5)->get();
+        return response()->json([
+            'item' => $random
+        ]);
+    }
+
+    //display articles by category
+    public function articleCategory($category)
+    {
+            $categoryResult = article::where("category", $category)->get();
+            return response()->json([
+                'item' => $categoryResult
+            ]);
+    }
+
+    //show certain information of an article
+    public function articleInfo($articleId)
+    {
+        $articleInfo = article::where("id", $articleId)->get();
+        return response()->json([
+            'item' => $articleInfo,
+        ]);
+    }
+    /*==========article API end==========*/
 
     /*==========comment API start==========*/
 
