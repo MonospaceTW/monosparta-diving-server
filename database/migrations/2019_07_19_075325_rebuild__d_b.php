@@ -11,6 +11,7 @@ class RebuildDB extends Migration
      *
      * @return void
      */
+    // create tables
     public function up()
     {
         Schema::create('spots', function (Blueprint $table) {
@@ -107,7 +108,7 @@ class RebuildDB extends Migration
             $table->tinyInteger('weight');
             $table->text('log');
         });
-
+        // enable foreign key
         Schema::enableForeignKeyConstraints();
     }
 
@@ -116,6 +117,7 @@ class RebuildDB extends Migration
      *
      * @return void
      */
+    // disable foreign key and drop tables
     public function down()
     {
         Schema::disableForeignKeyConstraints();

@@ -11,6 +11,7 @@ class CommentUser extends Migration
      *
      * @return void
      */
+    // this function creates comment_user pivot table
     public function up()
     {
         Schema::create('comment_user', function (Blueprint $table) {
@@ -28,6 +29,7 @@ class CommentUser extends Migration
      *
      * @return void
      */
+    // this function drops comment_user table
     public function down()
     {
         Schema::dropIfExists('comment_user');

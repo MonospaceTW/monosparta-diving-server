@@ -11,6 +11,7 @@ class CommentSpot extends Migration
      *
      * @return void
      */
+    // this function creates comment_spot pivot table
     public function up()
     {
         Schema::create('comment_spot', function (Blueprint $table) {
@@ -28,6 +29,7 @@ class CommentSpot extends Migration
      *
      * @return void
      */
+    // this function drops comment_spot table
     public function down()
     {
         Schema::dropIfExists('comment_spot');

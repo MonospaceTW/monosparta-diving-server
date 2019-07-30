@@ -11,6 +11,7 @@ class LogUser extends Migration
      *
      * @return void
      */
+    // this function creates log_user pivot table
     public function up()
     {
         Schema::create('log_user', function (Blueprint $table) {
@@ -28,6 +29,7 @@ class LogUser extends Migration
      *
      * @return void
      */
+    // this function drops log_user table
     public function down()
     {
         Schema::dropIfExists('log_user');

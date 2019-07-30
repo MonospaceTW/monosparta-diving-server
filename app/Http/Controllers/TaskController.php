@@ -129,25 +129,31 @@ class TaskController extends Controller
 
     public function addComment(Request $request)
     {
-        $input = $request->all();
-        $insert = Comment::create([
-            'comment' => $input['comment'],
-            'rating' => $input['rating']
-            ]);
-        $commentId = $insert->id;
-        // $spot = Spot::find($input['spot_id']);
-        // $spot->comments()->attach($commentId);
-        $comment = Comment::find($commentId);
-        $comment->Spots()->attach($input['spot_id']);
+        if ($request->spot_id) {
+            $input = $request->all();
+            $insert = Comment::create([
+                'comment' => $input['comment'],
+                'rating' => $input['rating']
+                ]);
+            $comment = Comment::find($insert['id']);
+            $comment->Spots()->attach($input['spot_id']);
+            $comment->Users()->attach($input['user_id']);
+        }
+        if ($request->shop_id) {
+            $input = $request->all();
+            $insert = Comment::create([
+                'comment' => $input['comment'],
+                'rating' => $input['rating']
+                ]);
+            $comment = Comment::find($insert['id']);
+            $comment->Shops()->attach($input['shop_id']);
+            $comment->Users()->attach($input['user_id']);
+        }
         return response()->json([
             "code" => 200,
             "message" => "comment added successfully",
             "comment" => $insert,
             "input" => $input,
-            // "spot" => $spot,
-            "result" => $comment,
-            "commentId" => $commentId
         ]);
-
     }
 }

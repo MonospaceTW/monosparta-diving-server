@@ -25,9 +25,9 @@ class Spot extends Model
         'img4',
         'img5',
     ];
-
+    // define relationship with comments
     public function comments()
     {
-        return $this->hasMany(Comment::class)->select(array('spot_id','comment','rating'));
+        return $this->hasMany(Comment::class);
     }
 }

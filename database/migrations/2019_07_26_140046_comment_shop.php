@@ -11,6 +11,7 @@ class CommentShop extends Migration
      *
      * @return void
      */
+    // this function creates comment_shop pivot table
     public function up()
     {
         Schema::create('comment_shop', function (Blueprint $table) {
@@ -28,6 +29,7 @@ class CommentShop extends Migration
      *
      * @return void
      */
+    // this function drops comment_shop table
     public function down()
     {
         Schema::dropIfExists('comment_shop');

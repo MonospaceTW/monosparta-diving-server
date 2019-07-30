@@ -10,18 +10,18 @@ class Comment extends Model
     protected $guarded = [];
 
     // define relationship
-    public function User()
+    public function Users()
     {
-        return $this->belongsTo(User::class)->select(array('id', 'userName', 'email'));
+        return $this->belongsToMany(User::class)->withTimestamps();
     }
 
     public function Spots()
     {
-        return $this->belongsToMany(Spot::class);
+        return $this->belongsToMany(Spot::class)->withTimestamps();
     }
 
     public function Shops()
     {
-        return $this->belongsTo(Shop::class);
+        return $this->belongsToMany(Shop::class)->withTimestamps();
     }
 }
