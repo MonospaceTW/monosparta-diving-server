@@ -77,8 +77,12 @@ class RebuildDB extends Migration
             $table->collate = 'utf8mb4_unicode_ci';
             $table->bigIncrements('id');
             $table->timestamps();
-            $table->text('comment');
+            $table->text('comment')->default(NULL);
             $table->tinyInteger('rating');
+            $table->string('commentable_type');
+            $table->integer('commentable_id');
+            $table->unsignedBigInteger('user_id');
+            $table->foreign('user_id')->references('id')->on('users');
         });
 
         Schema::create('logs', function (Blueprint $table) {

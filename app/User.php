@@ -39,6 +39,6 @@ class User extends Authenticatable
     //define relationship with comments
     public function comments()
     {
-        return $this->hasMany(Comment::class);
+        return $this->hasMany('App\Comment');
     }
 }

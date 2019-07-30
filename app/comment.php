@@ -10,18 +10,13 @@ class Comment extends Model
     protected $guarded = [];
 
     // define relationship
+    public function commentable()
+    {
+        return $this->morphTo();
+    }
+
     public function Users()
     {
-        return $this->belongsToMany(User::class)->withTimestamps();
-    }
-
-    public function Spots()
-    {
-        return $this->belongsToMany(Spot::class)->withTimestamps();
-    }
-
-    public function Shops()
-    {
-        return $this->belongsToMany(Shop::class)->withTimestamps();
+        return $this->belongsTo('App\User');
     }
 }

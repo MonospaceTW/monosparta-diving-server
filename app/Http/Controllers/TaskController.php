@@ -59,12 +59,10 @@ class TaskController extends Controller
 
     public function spotInfo($spotId)
     {
-        $spotInfo = Spot::where("id", $spotId)->get();
-        // add comment search
-        $comment = Comment::where("spot_id", $spotId)->with("User")->get();
+        // return with info and comments
+        $spotInfo = Spot::with('Comments')->find($spotId);
         return response()->json([
-            'item' => $spotInfo,
-            'comment' => $comment,
+            'comment' => $spotInfo
         ]);
     }
     /*==========spot search API end==========*/
@@ -114,11 +112,10 @@ class TaskController extends Controller
 
     public function shopInfo($shopId)
     {
-        $shopInfo = Shop::where("id", $shopId)->get();
-        $comment = Comment::where("shop_id", $shopId)->with("User")->get();
+        // returns with shop info and comments
+        $shopInfo = Shop::with('Comments')->find($shopId);
         return response()->json([
-            'item' => $shopInfo,
-            'comment' => $comment,
+            'item' => $shopInfo
         ]);
     }
     /*==========shop search API end==========*/
@@ -127,31 +124,11 @@ class TaskController extends Controller
 
     public function addComment(Request $request)
     {
-        if ($request->spot_id) {
-            $input = $request->all();
-            $insert = Comment::create([
-                'comment' => $input['comment'],
-                'rating' => $input['rating']
-                ]);
-            $comment = Comment::find($insert['id']);
-            $comment->Spots()->attach($input['spot_id']);
-            $comment->Users()->attach($input['user_id']);
-        }
-        if ($request->shop_id) {
-            $input = $request->all();
-            $insert = Comment::create([
-                'comment' => $input['comment'],
-                'rating' => $input['rating']
-                ]);
-            $comment = Comment::find($insert['id']);
-            $comment->Shops()->attach($input['shop_id']);
-            $comment->Users()->attach($input['user_id']);
-        }
+        $comment = Comment::create($request->all());
         return response()->json([
             "code" => 200,
             "message" => "comment added successfully",
-            "comment" => $insert,
-            "input" => $input,
+            "comment" => $comment,
         ]);
     }
 }

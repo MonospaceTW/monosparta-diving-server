@@ -26,8 +26,8 @@ class Spot extends Model
         'img5',
     ];
     // define relationship with comments
-    public function comments()
+    public function Comments()
     {
-        return $this->hasMany(Comment::class);
+        return $this->morphMany('App\Comment', 'commentable');
     }
 }
