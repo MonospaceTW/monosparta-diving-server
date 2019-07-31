@@ -1,11 +1,8 @@
 <?php
 
 use Illuminate\Http\Request;
-<<<<<<< HEAD
 use App\Http\Controllers\CommentController;
-=======
 use App\Http\Controllers\TaskController;
->>>>>>> 85cbef02869a5f6ae2ef8da5b0823a9ac97c2651
 
 /*
 |--------------------------------------------------------------------------
@@ -39,12 +36,8 @@ Route::get("article/{id}","TaskController@articleInfo");
 /*==========Article API Route end==========*/
 
 /*==========comment API Route ==========*/
-<<<<<<< HEAD
 Route::post("comment", "CommentController@create");
 Route::get("comment/delete/{id}", "CommentController@destroy");
-=======
-Route::post("comment/", "TaskController@addComment");
->>>>>>> 85cbef02869a5f6ae2ef8da5b0823a9ac97c2651
 /*==========comment API Route ==========*/
 
 Route::fallback(function(){

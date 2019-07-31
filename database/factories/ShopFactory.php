@@ -7,7 +7,7 @@ use Faker\Generator as Faker;
 
 $factory->define(Shop::class, function (Faker $faker) {
     return [
-        'service' => $faker->randomElement(["ExploreDiving", "LicenseCourse", "Food", "Accommodation", "EquipmentSale"], $count = 3),
+        'service' => $faker->randomElement(["ExploreDiving", "LicenseCourse", "Food", "Accommodation", "EquipmentSale"]),
         'location' => $faker->randomElement(["north", "east", "south", "mid", "outer"]),
         'name' => $faker->state(),
         'description' => $faker->text(100),
