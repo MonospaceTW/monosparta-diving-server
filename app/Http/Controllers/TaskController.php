@@ -76,10 +76,10 @@ class TaskController extends Controller
     {
         $spotInfo = spot::where("id", $spotId)->get();
         // add comment search
-        $comment = comment::where("spot_id", $spotId)->with("User")->get();
+        // $comment = comment::where("spot_id", $spotId)->with("User")->get();
         return response()->json([
             'item' => $spotInfo,
-            'comment' => $comment,
+            // 'comment' => $comment,
         ]);
     }
     /*==========spot search API end==========*/
@@ -142,10 +142,10 @@ class TaskController extends Controller
     public function shopInfo($shopId)
     {
         $shopInfo = shop::where("id", $shopId)->get();
-        $comment = comment::where("shop_id", $shopId)->with("User")->get();
+        // $comment = comment::where("shop_id", $shopId)->with("User")->get();
         return response()->json([
             'item' => $shopInfo,
-            'comment' => $comment,
+            // 'comment' => $comment,
         ]);
     }
     /*==========shop search API end==========*/
@@ -154,9 +154,15 @@ class TaskController extends Controller
     public function keywordSearch($keyword)
     {
         $decodeKeyword = urldecode($keyword);//decode keyword from frontend
-        $spotResult = spot::where("name","LIKE","%".$decodeKeyword."%")->orWhere("description","LIKE","%".$decodeKeyword."%")->get();
-        $shopResult = shop::where("name","LIKE","%".$decodeKeyword."%")->orWhere("description","LIKE","%".$decodeKeyword."%")->get();
-        $articleResult = article::where("title","LIKE","%".$decodeKeyword."%")->orWhere("content","LIKE","%".$decodeKeyword."%")->get();
+        $spotResult = spot::where("name","LIKE","%".$decodeKeyword."%")
+                            ->orWhere("description","LIKE","%".$decodeKeyword."%")
+                            ->get(['id','name']);
+        $shopResult = shop::where("name","LIKE","%".$decodeKeyword."%")
+                            ->orWhere("description","LIKE","%".$decodeKeyword."%")
+                            ->get(['id','name']);
+        $articleResult = article::where("title","LIKE","%".$decodeKeyword."%")
+                            ->orWhere("content","LIKE","%".$decodeKeyword."%")
+                            ->get(['id','title']);
 
         return response()->json([
             'spot' => $spotResult,
