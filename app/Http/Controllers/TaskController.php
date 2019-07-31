@@ -165,9 +165,15 @@ class TaskController extends Controller
     public function keywordSearch($keyword)
     {
         $decodeKeyword = urldecode($keyword);//decode keyword from frontend
-        $spotResult = spot::where("name","LIKE","%".$decodeKeyword."%")->orWhere("description","LIKE","%".$decodeKeyword."%")->get();
-        $shopResult = shop::where("name","LIKE","%".$decodeKeyword."%")->orWhere("description","LIKE","%".$decodeKeyword."%")->get();
-        $articleResult = article::where("title","LIKE","%".$decodeKeyword."%")->orWhere("content","LIKE","%".$decodeKeyword."%")->get();
+        $spotResult = Spot::where("name","LIKE","%".$decodeKeyword."%")
+                            ->orWhere("description","LIKE","%".$decodeKeyword."%")
+                            ->get(['id','name']);
+        $shopResult = Shop::where("name","LIKE","%".$decodeKeyword."%")
+                            ->orWhere("description","LIKE","%".$decodeKeyword."%")
+                            ->get(['id','name']);
+        $articleResult = Article::where("title","LIKE","%".$decodeKeyword."%")
+                            ->orWhere("content","LIKE","%".$decodeKeyword."%")
+                            ->get(['id','title']);
 
         return response()->json([
             'spot' => $spotResult,
