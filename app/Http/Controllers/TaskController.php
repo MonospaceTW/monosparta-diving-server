@@ -74,15 +74,21 @@ class TaskController extends Controller
     public function spotInfo($spotId)
     {
         // return with info and comments
-        $spotInfo = Spot::with('Comments')->find($spotId);
-        if ($spotInfo == NULL) {
+        $spotInfo = Spot::with('Comments')->where('id', $spotId)->get();
+        if ($spotInfo->isEmpty()) {
             return response()->json([
                 'code' => 200,
                 'message' => 'this spot does not exist'
             ]);
         } else {
+            $spotComment = $spotInfo->pluck('comments');
+            $spotLocation = $spotInfo->pluck('location');
+            $shopNearBy = Shop::where('location', $spotLocation)->get();
             return response()->json([
-                'item' => $spotInfo
+                'item' => $spotInfo,
+                'comment' => $spotComment,
+                'location' => $spotLocation,
+                'shopNearBy' => $shopNearBy
             ]);
         }
     }
@@ -146,15 +152,21 @@ class TaskController extends Controller
     public function shopInfo($shopId)
     {
         // returns with shop info and comments
-        $shopInfo = Shop::with('Comments')->find($shopId);
-        if ($shopInfo == NULL) {
+        $shopInfo = Shop::where('id', $shopId)->with('Comments')->get();
+        if ($shopInfo->isEmpty()) {
             return response()->json([
                 'code' => 200,
                 'message' => 'this shop does not exist'
             ]);
         } else {
+            $shopComment = $shopInfo->pluck('comments');
+            $shopLocation = $shopInfo->pluck('location');
+            $spotNearBy = Shop::where('location', $shopLocation)->get();
             return response()->json([
-                'item' => $shopInfo
+                'item' => $shopInfo,
+                'comment' => $shopComment,
+                'location' => $shopLocation,
+                'shopNearBy' => $spotNearBy
             ]);
         }
     }
@@ -213,16 +225,4 @@ class TaskController extends Controller
         ]);
     }
     /*==========article API end==========*/
-
-    /*==========comment API start==========*/
-
-    public function addComment(Request $request)
-    {
-        $comment = Comment::create($request->all());
-        return response()->json([
-            "code" => 200,
-            "message" => "comment added successfully",
-            "comment" => $comment,
-        ]);
-    }
 }
