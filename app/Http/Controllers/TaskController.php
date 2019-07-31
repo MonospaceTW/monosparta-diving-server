@@ -61,9 +61,16 @@ class TaskController extends Controller
     {
         // return with info and comments
         $spotInfo = Spot::with('Comments')->find($spotId);
-        return response()->json([
-            'comment' => $spotInfo
-        ]);
+        if ($spotInfo == NULL) {
+            return response()->json([
+                'code' => 200,
+                'message' => 'this spot does not exist'
+            ]);
+        } else {
+            return response()->json([
+                'item' => $spotInfo
+            ]);
+        }
     }
     /*==========spot search API end==========*/
 
@@ -95,7 +102,7 @@ class TaskController extends Controller
         else {
             if ($request->location) {
                 $parm = $request->location;
-                $shopLocation =Shop::where("location", $parm)->get();
+                $shopLocation = Shop::where("location", $parm)->get();
                 return response()->json([
                     'item'=>$shopLocation
                 ]);
@@ -114,21 +121,17 @@ class TaskController extends Controller
     {
         // returns with shop info and comments
         $shopInfo = Shop::with('Comments')->find($shopId);
-        return response()->json([
-            'item' => $shopInfo
-        ]);
+        if ($shopInfo == NULL) {
+            return response()->json([
+                'code' => 200,
+                'message' => 'this shop does not exist'
+            ]);
+        } else {
+            return response()->json([
+                'item' => $shopInfo
+            ]);
+        }
     }
     /*==========shop search API end==========*/
 
-    /*==========comment API start==========*/
-
-    public function addComment(Request $request)
-    {
-        $comment = Comment::create($request->all());
-        return response()->json([
-            "code" => 200,
-            "message" => "comment added successfully",
-            "comment" => $comment,
-        ]);
-    }
 }

@@ -1,6 +1,7 @@
 <?php
 
 use Illuminate\Http\Request;
+use App\Http\Controllers\CommentController;
 
 /*
 |--------------------------------------------------------------------------
@@ -24,7 +25,8 @@ Route::get("shop/{shop_id}", "TaskController@shopInfo");
 /*==========Search API Route end==========*/
 
 /*==========comment API Route ==========*/
-Route::post("comment", "TaskController@addComment");
+Route::post("comment", "CommentController@create");
+Route::get("comment/delete/{id}", "CommentController@destroy");
 /*==========comment API Route ==========*/
 
 Route::fallback(function(){
