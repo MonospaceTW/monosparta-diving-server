@@ -11,6 +11,7 @@ class CreateArticlesTable extends Migration
      *
      * @return void
      */
+    // this function creates articles table
     public function up()
     {
         Schema::create('articles', function (Blueprint $table) {
@@ -18,7 +19,7 @@ class CreateArticlesTable extends Migration
             $table->timestamps();
             $table->string('title');
             $table->text('img');
-
+            // $table->
 
         });
     }
@@ -28,6 +29,7 @@ class CreateArticlesTable extends Migration
      *
      * @return void
      */
+    // this function drops articles table
     public function down()
     {
         Schema::dropIfExists('articles');

@@ -15,11 +15,11 @@ class DatabaseSeeder extends Seeder
     {
         factory(App\User::class, 10)->create();
 
-        factory(App\spot::class, 10)->create();
+        factory(App\Spot::class, 10)->create();
 
-        factory(App\shop::class, 10)->create();
+        factory(App\Shop::class, 10)->create();
 
-        factory(App\comment::class, 100)->create();
+        factory(App\Comment::class, 100)->create();
 
     }
 }
