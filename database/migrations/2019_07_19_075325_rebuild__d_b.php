@@ -21,7 +21,7 @@ class RebuildDB extends Migration
             $table->timestamps();
             $table->char('level', 6);
             $table->char('location', 5);
-            $table->char('name', 10);
+            $table->string('name');
             $table->text('description');
             $table->string('county')->nullable();
             $table->string('district')->nullable();
@@ -41,8 +41,8 @@ class RebuildDB extends Migration
             $table->bigIncrements('id');
             $table->timestamps();
             $table->string('service');
-            $table->char('location', 5);
-            $table->char('name', 10);
+            $table->string('location', 5);
+            $table->string('name');
             $table->text('description');
             $table->tinyInteger('avg_rate')->nullable();
             $table->text('bh')->nullable();
@@ -81,7 +81,7 @@ class RebuildDB extends Migration
             $table->tinyInteger('rating');
             $table->string('commentable_type');
             $table->integer('commentable_id');
-            $table->unsignedBigInteger('user_id');
+            $table->unsignedBigInteger('user_id')->nullable();
             $table->foreign('user_id')->references('id')->on('users');
         });
 

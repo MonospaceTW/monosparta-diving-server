@@ -7,12 +7,10 @@ use Faker\Generator as Faker;
 use Illuminate\Support\Str;
 
 $factory->define(Spot::class, function (Faker $faker) {
-    // $faker = Faker\Factory::create('zh_TW');
     return [
-        //
-        'level' => str_random(6),
-        'location' => str_random(5),
-        'name' => str_random(10),
+        'level' => $faker->randomElement(["easy", "medium", "hard"]),
+        'location' => $faker->randomElement(["north", "east", "south", "mid", "outer"]),
+        'name' => $faker->state(),
         'description' => $faker->text(100),
         'longitude' => $faker->longitude($min = -180, $max = 180),
         'latitude' => $faker->latitude($min = -90, $max = 90),
