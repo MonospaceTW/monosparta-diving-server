@@ -2,17 +2,19 @@
 
 /** @var $factory \Illuminate\Database\Eloquent\Factory */
 
-use App\comment;
+use App\Comment;
 use Faker\Generator as Faker;
 
-$factory->define(comment::class, function (Faker $faker) {
-    $spot = App\spot::pluck('id')->toArray();
-    $user = App\User::pluck('id')->toArray();
+$factory->define(Comment::class, function (Faker $faker) {
+    $commentable = [
+        App\Spot::class,
+        App\Shop::class,
+    ];
     return [
-        //
         'comment' => $faker->text(100),
         'rating' => $faker->numberBetween($min = 1, $max = 5),
-        'user_id' => $faker->randomElement($user),
-        'spot_id' => $faker->randomElement($spot),
+        'commentable_type' => $faker->randomElement($commentable),
+        'commentable_id' => $faker->numberBetween(1,10),
+        'user_id' => $faker->numberBetween(1,10)
     ];
 });

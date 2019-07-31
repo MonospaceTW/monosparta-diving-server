@@ -4,24 +4,19 @@ namespace App;
 
 use Illuminate\Database\Eloquent\Model;
 
-class comment extends Model
+class Comment extends Model
 {
     // data insert blacklist
     protected $guarded = [];
 
     // define relationship
-    public function User()
+    public function commentable()
     {
-        return $this->belongsTo(User::class)->select(array('id', 'userName', 'email'));
+        return $this->morphTo();
     }
 
-    public function spot()
+    public function Users()
     {
-        return $this->belongsTo(spot::class);
-    }
-
-    public function shops()
-    {
-        return $this->belongsTo(shop::class);
+        return $this->belongsTo('App\User');
     }
 }

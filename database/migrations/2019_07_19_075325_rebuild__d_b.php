@@ -11,6 +11,7 @@ class RebuildDB extends Migration
      *
      * @return void
      */
+    // create tables
     public function up()
     {
         Schema::create('spots', function (Blueprint $table) {
@@ -76,14 +77,12 @@ class RebuildDB extends Migration
             $table->collate = 'utf8mb4_unicode_ci';
             $table->bigIncrements('id');
             $table->timestamps();
-            $table->text('comment');
+            $table->text('comment')->default(NULL);
             $table->tinyInteger('rating');
-            $table->bigInteger('user_id')->unsigned()->nullable();;
-            $table->bigInteger('shop_id')->unsigned()->nullable();;
-            $table->bigInteger('spot_id')->unsigned()->nullable();;
+            $table->string('commentable_type');
+            $table->integer('commentable_id');
+            $table->unsignedBigInteger('user_id');
             $table->foreign('user_id')->references('id')->on('users');
-            $table->foreign('shop_id')->references('id')->on('shops');
-            $table->foreign('spot_id')->references('id')->on('spots');
         });
 
         Schema::create('logs', function (Blueprint $table) {
@@ -113,7 +112,7 @@ class RebuildDB extends Migration
             $table->tinyInteger('weight');
             $table->text('log');
         });
-
+        // enable foreign key
         Schema::enableForeignKeyConstraints();
     }
 
@@ -122,6 +121,7 @@ class RebuildDB extends Migration
      *
      * @return void
      */
+    // disable foreign key and drop tables
     public function down()
     {
         Schema::disableForeignKeyConstraints();
