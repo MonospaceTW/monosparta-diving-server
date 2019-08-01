@@ -29,13 +29,15 @@ class TaskController extends Controller
     //show list of all spots for search
     public function spotIndex()
     {
-        $spot = Spot::orderBy("id", "desc")->get([
-            'id',
-            'name',
-            'county',
-            'district',
-            'img1'
-        ]);
+        $spot = Spot::orderBy("id", "desc")
+                    ->select([
+                        'id',
+                        'name',
+                        'county',
+                        'district',
+                        'img1'
+                        ])
+                    ->get();
         return response()->json([
             'item' => $spot
         ]);
@@ -73,33 +75,40 @@ class TaskController extends Controller
     //show certain information of a spot
     public function spotInfo($spotId)
     {
-        $spotInfo = Spot::where("id", $spotId)->get();
-        // $nearby = Shop::;
-        // add comment search
-        // $comment = comment::where("spot_id", $spotId)->with("User")->get();
-        return response()->json([
-            'item' => $spotInfo,
-            // 'comment' => $comment,
-        ]);
-
-        // // return with info and comments
-        // $spotInfo = Spot::with('Comments')->find($spotId)->get();//get() wrong！！！！
-        // if ($spotInfo == NULL) {
-        //     return response()->json([
-        //         'code' => 200,
-        //         'message' => 'this spot does not exist'
-        //     ]);
-        // } else {
-        //     return response()->json([
-        //         'item' => $spotInfo
-        //     ]);
-        // }
+         // return with info and comments
+         $id = $spotId;
+         $spotInfo = Spot::where('id', $id)->get();
+         if ($spotInfo->isEmpty()) {
+             return response()->json([
+                 'code' => 200,
+                 'message' => 'this spot does not exist'
+             ]);
+         } else {
+             $spotComment = Spot::where('id', $id)->with('Comments')->get();
+             $comment = $spotComment->pluck('comments');
+             $spotLocation = $spotInfo->pluck('location');
+             $shopNearby = Shop::where('location', $spotLocation)
+                                ->select([
+                                    'id',
+                                    'name',
+                                    'county',
+                                    'district',
+                                    'img1'
+                                    ])
+                                ->get();
+             return response()->json([
+                 'item' => $spotInfo,
+                 'comment' => $comment,
+                //  'location' => $spotLocation,
+                 'Nearby' => $shopNearby
+             ]);
+        }
     }
 
-    // $nearby = Shop::;
     /*==========spot search API end==========*/
 
     /*==========shop search API==========*/
+
     //random five shops for home page
     public function shopRandom()
     {
@@ -112,13 +121,15 @@ class TaskController extends Controller
     //show list of all shops for search
     public function shopIndex()
     {
-        $shop = Shop::orderBy("id", "desc")->get([
-            'id',
-            'name',
-            'county',
-            'district',
-            'img1'
-            ]);
+        $shop = Shop::orderBy("id", "desc")
+                    ->select([
+                        'id',
+                        'name',
+                        'county',
+                        'district',
+                        'img1'
+                        ])
+                    ->get();
         return response()->json([
             'item' => $shop
         ]);
@@ -156,25 +167,26 @@ class TaskController extends Controller
     //show certain information of a shop
     public function shopInfo($shopId)
     {
-        $shopInfo = Shop::where("id", $shopId)->get();
-        // $comment = comment::where("shop_id", $shopId)->with("User")->get();
-        return response()->json([
-            'item' => $shopInfo,
-            // 'comment' => $comment,
-        ]);
-
-        // // return with info and comments
-        // $shopInfo = Shop::with('Comments')->find($shopId)->get();//get() wrong！！！！
-        // if ($shopInfo == NULL) {
-        //     return response()->json([
-        //         'code' => 200,
-        //         'message' => 'this spot does not exist'
-        //     ]);
-        // } else {
-        //     return response()->json([
-        //         'item' => $shopInfo
-        //     ]);
-        // }
+        $id = $shopId;
+        // returns with shop info and comments
+        $shopInfo = Shop::where('id', $id)->get();
+        if ($shopInfo->isEmpty()) {
+            return response()->json([
+                'code' => 200,
+                'message' => 'this shop does not exist'
+            ]);
+        } else {
+            $shopComment = Shop::where('id', $id)->with('Comments')->get();
+            $comment = $shopComment->pluck('comments');
+            // $shopLocation = $shopInfo->pluck('location');
+            // $spotNearBy = Shop::where('location', $shopLocation)->get();
+            return response()->json([
+                'item' => $shopInfo,
+                'comment' => $comment,
+                // 'location' => $shopLocation,
+                // 'shopNearBy' => $spotNearBy
+            ]);
+        }
     }
     /*==========shop search API end==========*/
 
@@ -236,16 +248,4 @@ class TaskController extends Controller
         ]);
     }
     /*==========article API end==========*/
-
-    /*==========comment API start==========*/
-
-    public function addComment(Request $request)
-    {
-        $comment = Comment::create($request->all());
-        return response()->json([
-            "code" => 200,
-            "message" => "comment added successfully",
-            "comment" => $comment,
-        ]);
-    }
 }
