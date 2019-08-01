@@ -76,15 +76,14 @@ class TaskController extends Controller
     public function spotInfo($spotId)
     {
          // return with info and comments
-         $id = $spotId;
-         $spotInfo = Spot::where('id', $id)->get();
+         $spotInfo = Spot::where('id', $spotId)->get();
          if ($spotInfo->isEmpty()) {
              return response()->json([
                  'code' => 200,
                  'message' => 'this spot does not exist'
              ]);
          } else {
-             $spotComment = Spot::where('id', $id)->with('Comments')->get();
+             $spotComment = Spot::where('id', $spotId)->with('Comments')->get();
              $comment = $spotComment->pluck('comments');
              $spotLocation = $spotInfo->pluck('location');
              $shopNearby = Shop::where('location', $spotLocation)
@@ -167,16 +166,15 @@ class TaskController extends Controller
     //show certain information of a shop
     public function shopInfo($shopId)
     {
-        $id = $shopId;
         // returns with shop info and comments
-        $shopInfo = Shop::where('id', $id)->get();
+        $shopInfo = Shop::where('id', $shopId)->get();
         if ($shopInfo->isEmpty()) {
             return response()->json([
                 'code' => 200,
                 'message' => 'this shop does not exist'
             ]);
         } else {
-            $shopComment = Shop::where('id', $id)->with('Comments')->get();
+            $shopComment = Shop::where('id', $shopId)->with('Comments')->get();
             $comment = $shopComment->pluck('comments');
             // $shopLocation = $shopInfo->pluck('location');
             // $spotNearBy = Shop::where('location', $shopLocation)->get();
