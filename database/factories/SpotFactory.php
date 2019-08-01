@@ -2,24 +2,23 @@
 
 /** @var \Illuminate\Database\Eloquent\Factory $factory */
 
-use App\spots;
+use App\Spot;
 use Faker\Generator as Faker;
 use Illuminate\Support\Str;
 
-$factory->define(spots::class, function (Faker $faker) {
-    // $faker = Faker\Factory::create('zh_TW');
+$factory->define(Spot::class, function (Faker $faker) {
     return [
-        //
-        'level' => str_random(6),
-        'location' => str_random(5),
-        'name' => str_random(10),
+        'level' => $faker->randomElement(["easy", "medium", "hard"]),
+        'location' => $faker->randomElement(["north", "east", "south", "mid", "outer"]),
+        'name' => $faker->state,
         'description' => $faker->text(100),
+        'county' => $faker->city,
         'longitude' => $faker->longitude($min = -180, $max = 180),
         'latitude' => $faker->latitude($min = -90, $max = 90),
-        'img1' => $faker->imageUrl(),
-        'img2' => $faker->imageUrl(),
-        'img3' => $faker->imageUrl(),
-        'img4' => $faker->imageUrl(),
-        'img5' => $faker->imageUrl(),
+        'img1' => $faker->imageUrl,
+        'img2' => $faker->imageUrl,
+        'img3' => $faker->imageUrl,
+        'img4' => $faker->imageUrl,
+        'img5' => $faker->imageUrl,
     ];
 });

@@ -4,7 +4,7 @@ namespace App;
 
 use Illuminate\Database\Eloquent\Model;
 
-class spot extends Model
+class Spot extends Model
 {
     //
     /**
@@ -25,9 +25,9 @@ class spot extends Model
         'img4',
         'img5',
     ];
-
-    public function comments()
+    // define relationship with comments
+    public function Comments()
     {
-        return $this->hasMany(comment::class)->select(array('spot_id','comment','rating'));
+        return $this->morphMany('App\Comment', 'commentable');
     }
 }

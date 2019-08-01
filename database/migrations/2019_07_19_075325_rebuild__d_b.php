@@ -11,24 +11,23 @@ class RebuildDB extends Migration
      *
      * @return void
      */
+    // create tables
     public function up()
     {
-        Schema::create('spot', function (Blueprint $table) {
+        Schema::create('spots', function (Blueprint $table) {
             $table->charset = 'utf8mb4';
             $table->collate = 'utf8mb4_unicode_ci';
             $table->bigIncrements('id');
             $table->timestamps();
             $table->char('level', 6);
             $table->char('location', 5);
-            $table->char('name', 10);
-            $table->string('county')->nullable();
-            $table->string('district')->nullable();
+            $table->string('name');
             $table->text('description');
             $table->string('county')->nullable();
             $table->string('district')->nullable();
             $table->char('longitude', 10)->nullable();;
             $table->char('latitude', 10)->nullable();;
-            $table->tinyInteger('avgRate')->nullable();;
+            $table->tinyInteger('avg_rate')->nullable();;
             $table->longText('img1')->nullable();
             $table->longText('img2')->nullable();
             $table->longText('img3')->nullable();
@@ -36,14 +35,14 @@ class RebuildDB extends Migration
             $table->longText('img5')->nullable();
         });
 
-        Schema::create('shop', function (Blueprint $table) {
+        Schema::create('shops', function (Blueprint $table) {
             $table->charset = 'utf8mb4';
             $table->collate = 'utf8mb4_unicode_ci';
             $table->bigIncrements('id');
             $table->timestamps();
             $table->string('service');
-            $table->char('location', 5);
-            $table->char('name', 10);
+            $table->string('location', 5);
+            $table->string('name');
             $table->text('description');
             $table->tinyInteger('avg_rate')->nullable();
             $table->text('bh')->nullable();
@@ -63,7 +62,7 @@ class RebuildDB extends Migration
             $table->longText('img5');
         });
 
-        Schema::create('user', function (Blueprint $table) {
+        Schema::create('users', function (Blueprint $table) {
             $table->charset = 'utf8mb4';
             $table->collate = 'utf8mb4_unicode_ci';
             $table->bigIncrements('id');
@@ -73,22 +72,20 @@ class RebuildDB extends Migration
             $table->string('email');
         });
 
-        Schema::create('comment', function (Blueprint $table) {
+        Schema::create('comments', function (Blueprint $table) {
             $table->charset = 'utf8mb4';
             $table->collate = 'utf8mb4_unicode_ci';
             $table->bigIncrements('id');
             $table->timestamps();
-            $table->text('comment');
+            $table->text('comment')->default(NULL);
             $table->tinyInteger('rating');
-            $table->bigInteger('user_id')->unsigned()->nullable();;
-            $table->bigInteger('shop_id')->unsigned()->nullable();;
-            $table->bigInteger('spot_id')->unsigned()->nullable();;
+            $table->string('commentable_type');
+            $table->integer('commentable_id');
+            $table->unsignedBigInteger('user_id')->nullable();
             $table->foreign('user_id')->references('id')->on('users');
-            $table->foreign('shop_id')->references('id')->on('shops');
-            $table->foreign('spot_id')->references('id')->on('spots');
         });
 
-        Schema::create('divingLogs', function (Blueprint $table) {
+        Schema::create('logs', function (Blueprint $table) {
             $table->charset = 'utf8mb4';
             $table->collate = 'utf8mb4_unicode_ci';
             $table->bigIncrements('id');
@@ -100,8 +97,8 @@ class RebuildDB extends Migration
             $table->tinyInteger('max_depth');
             $table->tinyInteger('avg_depth');
             $table->char('time', 5);
-            $table->unsignedTinyInteger('init_airPressure');
-            $table->unsignedTinyInteger('end_airPressure');
+            $table->unsignedTinyInteger('init_air_pressure');
+            $table->unsignedTinyInteger('end_air_pressure');
             $table->tinyInteger('percentage_of_oxygen');
             $table->tinyInteger('air_volume');
             $table->char('scuba_tank', 2);
@@ -115,7 +112,7 @@ class RebuildDB extends Migration
             $table->tinyInteger('weight');
             $table->text('log');
         });
-
+        // enable foreign key
         Schema::enableForeignKeyConstraints();
     }
 
@@ -124,13 +121,14 @@ class RebuildDB extends Migration
      *
      * @return void
      */
+    // disable foreign key and drop tables
     public function down()
     {
         Schema::disableForeignKeyConstraints();
-        Schema::dropIfExists('spot');
-        Schema::dropIfExists('shop');
-        Schema::dropIfExists('user');
-        Schema::dropIfExists('comment');
-        Schema::dropIfExists('log');
+        Schema::dropIfExists('spots');
+        Schema::dropIfExists('shops');
+        Schema::dropIfExists('users');
+        Schema::dropIfExists('comments');
+        Schema::dropIfExists('logs');
     }
 }
