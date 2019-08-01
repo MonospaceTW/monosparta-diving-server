@@ -36,7 +36,7 @@ Route::get("article/{id}","TaskController@articleInfo");
 /*==========Article API Route end==========*/
 
 /*==========comment API Route ==========*/
-Route::post("comment", "CommentController@create");
+Route::post("comment/", "CommentController@create");
 Route::get("comment/delete/{id}", "CommentController@destroy");
 /*==========comment API Route ==========*/
 
