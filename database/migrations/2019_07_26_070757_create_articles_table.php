@@ -17,10 +17,13 @@ class CreateArticlesTable extends Migration
         Schema::create('articles', function (Blueprint $table) {
             $table->bigIncrements('id');
             $table->timestamps();
+            $table->char('category',10);
+            $table->longText('img');
+            $table->char('date',10);
+            $table->string('author',50);
             $table->string('title');
-            $table->text('img');
-            // $table->
-
+            $table->string('content');
+            $table->longText('url');
         });
     }
 
