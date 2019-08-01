@@ -152,18 +152,20 @@ class TaskController extends Controller
     public function shopInfo($shopId)
     {
         // returns with shop info and comments
-        $shopInfo = Shop::where('id', $shopId)->with('Comments')->get();
+        $shopInfo = Shop::where('id', $shopId)->get();
         if ($shopInfo->isEmpty()) {
             return response()->json([
                 'code' => 200,
                 'message' => 'this shop does not exist'
             ]);
         } else {
+            $shopTest = Shop::where('id', $shopId)->with('Comments')->get();
             $shopComment = $shopInfo->pluck('comments');
             $shopLocation = $shopInfo->pluck('location');
             $spotNearBy = Shop::where('location', $shopLocation)->get();
             return response()->json([
                 'item' => $shopInfo,
+                'test' => $shopTest,
                 'comment' => $shopComment,
                 'location' => $shopLocation,
                 'shopNearBy' => $spotNearBy
