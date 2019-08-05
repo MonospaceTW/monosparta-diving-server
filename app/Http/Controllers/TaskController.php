@@ -16,43 +16,6 @@ use App\Comment;
 
 class TaskController extends Controller
 {
-    /*==========spot search API==========*/
-    //random five spots for home page
-    public function spotRandom()
-    {
-        $spotRandom= Spot::inRandomOrder()->take(5)->get();
-        return response()->json([
-            'item'=>$spotRandom
-        ]);
-    }
-
-<<<<<<< HEAD
-    public function search(Request $request)
-    {
-
-        if ($request->location && $request->level) {
-            $level = $request->level;
-            $location = $request->location;
-            $site = DB::table('spot_list')->where("location", $location)->where("level", $level)->get();
-            return response()->json([
-                'item'=>$site
-                ]);
-            }
-            else if ($request->location) {
-                    $parm = $request->location;
-                    $site = DB::table('spot_list')->where("location", $parm)->get();
-                    return response()->json([
-                        'item'=>$site
-                    ]);
-                }
-                if ($request->level) {
-                    $parm = $request->level;
-                    $site = DB::table('spot_list')->where("level", $parm)->get();
-                    return response()->json([
-                        'item'=>$site
-                        ]);
-                    }
-=======
     //show list of all spots for search
     public function spotIndex()
     {
@@ -262,7 +225,6 @@ class TaskController extends Controller
             return response()->json([
                 'item' => $categoryResult
             ]);
->>>>>>> d3b0e86a78cd7cd53d8caed92ee715df994beff3
     }
 
     //show certain information of an article
