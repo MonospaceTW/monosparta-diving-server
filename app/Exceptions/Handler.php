@@ -46,15 +46,6 @@ class Handler extends ExceptionHandler
      */
     public function render($request, Exception $exception)
     {
-        /*Error code*/
-        // if ($this->isHttpException($exception))
-        // {
-        //     if ($exception->getStatusCode() == 404)
-        //     {
-        //         return response(json_encode(['error' => '404 Not found.']), 404)
-        //             ->header('Content-Type', 'application/json');
-        //     }
-        // }
         return parent::render($request, $exception);
     }
 }
