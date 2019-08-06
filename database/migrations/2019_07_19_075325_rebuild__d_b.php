@@ -51,8 +51,8 @@ class RebuildDB extends Migration
             $table->string('address')->nullable();
             $table->char('phone1', 12)->nullable();
             $table->char('phone2', 12)->nullable();
-            $table->longText('url1')->nullable();
-            $table->longText('url2')->nullable();
+            $table->longText('url')->nullable();
+            $table->longText('fb')->nullable();
             $table->char('longitude', 10);
             $table->char('latitude', 10);
             $table->longText('img1');
