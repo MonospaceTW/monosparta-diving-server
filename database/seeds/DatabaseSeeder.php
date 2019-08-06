@@ -19,7 +19,7 @@ class DatabaseSeeder extends Seeder
 
         factory(App\Shop::class, 10)->create();
 
-        factory(App\Comment::class, 100)->create();
+        factory(App\Comment::class, 1000)->create();
 
         factory(App\Article::class, 25)->create();
 

@@ -79,7 +79,7 @@ class TaskController extends Controller
          $spotInfo = Spot::where('id', $spotId)->get();
          if ($spotInfo->isEmpty()) {
              return response()->json([
-                 'code' => 200,
+                 'code' => 404,
                  'message' => 'this spot does not exist'
              ]);
          } else {
@@ -170,12 +170,12 @@ class TaskController extends Controller
         $shopInfo = Shop::where('id', $shopId)->get();
         if ($shopInfo->isEmpty()) {
             return response()->json([
-                'code' => 200,
+                'code' => 404,
                 'message' => 'this shop does not exist'
             ]);
         } else {
             $shopComment = Shop::where('id', $shopId)->with('Comments')->get();
-            $comment = $shopComment->pluck('comments');
+            $comment = $shopComment->pluck('comments')->first();
             // $shopLocation = $shopInfo->pluck('location');
             // $spotNearBy = Shop::where('location', $shopLocation)->get();
             return response()->json([

@@ -51,8 +51,8 @@ class RebuildDB extends Migration
             $table->string('address')->nullable();
             $table->char('phone1', 12)->nullable();
             $table->char('phone2', 12)->nullable();
-            $table->longText('web1')->nullable();
-            $table->longText('web2')->nullable();
+            $table->longText('url1')->nullable();
+            $table->longText('url2')->nullable();
             $table->char('longitude', 10);
             $table->char('latitude', 10);
             $table->longText('img1');
@@ -79,8 +79,6 @@ class RebuildDB extends Migration
             $table->timestamps();
             $table->text('comment')->default(NULL);
             $table->tinyInteger('rating');
-            $table->string('commentable_type');
-            $table->integer('commentable_id');
             $table->unsignedBigInteger('user_id')->nullable();
             $table->foreign('user_id')->references('id')->on('users');
         });
