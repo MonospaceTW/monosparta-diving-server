@@ -12,7 +12,7 @@ class CommentController extends Controller
     {
         $comment = Comment::create($request->all());
         return response()->json([
-            "code" => 200,
+            "code" => 201,
             "message" => "comment added successfully",
             "comment" => $comment,
         ]);
@@ -23,7 +23,7 @@ class CommentController extends Controller
         $comment = Comment::find($id);
         if ($comment == NULL) {
             return response()->json([
-                "code" => 200,
+                "code" => 400,
                 "message" => "this comment does not exist"
             ]);
         } else {
