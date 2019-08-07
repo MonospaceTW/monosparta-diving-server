@@ -36,10 +36,10 @@ Route::get("article/{id}","TaskController@articleInfo");
 /*==========Article API Route end==========*/
 
 /*==========comment API Route ==========*/
-Route::post("comment/", "CommentController@create");
-Route::get("comment/delete/{id}", "CommentController@destroy");
+Route::post("comment/", "CommentController@store");
+Route::delete("comment/{id}", "CommentController@destroy");
 /*==========comment API Route ==========*/
 
 Route::fallback(function(){
-    return response()->json(['message' => 'Not Found!'], 404);
+    return response()->json(['message' => 'Not Found!', 'code' => 404], 404);
 });

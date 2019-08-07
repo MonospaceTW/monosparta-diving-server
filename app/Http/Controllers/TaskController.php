@@ -73,23 +73,23 @@ class TaskController extends Controller
                  'message' => 'this spot does not exist'
              ]);
          } else {
-             $spotComment = Spot::where('id', $spotId)->with('Comments')->get();
-             $comment = $spotComment->pluck('comments');
-             $spotLocation = $spotInfo->pluck('location');
-             $shopNearby = Shop::where('location', $spotLocation)
-                                ->select([
-                                    'id',
-                                    'name',
-                                    'county',
-                                    'district',
-                                    'img1'
-                                    ])
-                                ->get();
+             $spotComment = Spot::find($spotId)->Comments()->get();
+            //  $comment = $spotComment->pluck('comments');
+            //  $spotLocation = $spotInfo->pluck('location');
+            //  $shopNearby = Shop::where('location', $spotLocation)
+            //                     ->select([
+            //                         'id',
+            //                         'name',
+            //                         'county',
+            //                         'district',
+            //                         'img1'
+            //                         ])
+            //                     ->get();
              return response()->json([
                  'item' => $spotInfo,
-                 'comment' => $comment,
+                 'comment' => $spotComment,
                 //  'location' => $spotLocation,
-                 'Nearby' => $shopNearby
+                //  'Nearby' => $shopNearby
              ]);
         }
     }
