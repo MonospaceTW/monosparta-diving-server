@@ -74,22 +74,21 @@ class TaskController extends Controller
              ]);
          } else {
              $spotComment = Spot::find($spotId)->Comments()->get();
-            //  $comment = $spotComment->pluck('comments');
-            //  $spotLocation = $spotInfo->pluck('location');
-            //  $shopNearby = Shop::where('location', $spotLocation)
-            //                     ->select([
-            //                         'id',
-            //                         'name',
-            //                         'county',
-            //                         'district',
-            //                         'img1'
-            //                         ])
-            //                     ->get();
+             $spotLocation = $spotInfo->pluck('location');
+             $shopNearby = Shop::where('location', $spotLocation)
+                                ->select([
+                                    'id',
+                                    'name',
+                                    'county',
+                                    'district',
+                                    'img1'
+                                    ])
+                                ->get();
              return response()->json([
                  'item' => $spotInfo,
                  'comment' => $spotComment,
                 //  'location' => $spotLocation,
-                //  'Nearby' => $shopNearby
+                 'Nearby' => $shopNearby
              ]);
         }
     }
@@ -164,13 +163,12 @@ class TaskController extends Controller
                 'message' => 'this shop does not exist'
             ]);
         } else {
-            $shopComment = Shop::where('id', $shopId)->with('Comments')->get();
-            $comment = $shopComment->pluck('comments')->first();
+            $shopComment = Shop::find($shopId)->Comments()->get();
             // $shopLocation = $shopInfo->pluck('location');
             // $spotNearBy = Shop::where('location', $shopLocation)->get();
             return response()->json([
                 'item' => $shopInfo,
-                'comment' => $comment,
+                'comment' => $shopComment,
                 // 'location' => $shopLocation,
                 // 'shopNearBy' => $spotNearBy
             ]);

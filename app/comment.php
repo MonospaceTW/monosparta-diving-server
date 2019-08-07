@@ -17,7 +17,7 @@ class Comment extends Model
 
     public function spots()
     {
-        return $this->belongsToMany('App\Spot', 'spot_comments')->withTimestamps();
+        return $this->belongsToMany('App\Spot', 'spot_comments', 'comment_id', 'spot_id')->withTimestamps();
     }
 
     public function Users()

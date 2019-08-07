@@ -12,23 +12,38 @@ class CommentController extends Controller
 {
     public function store(Request $request)
     {
-        $request = $request -> all();
+        $input = $request -> all();
         $comment = Comment::create([
-            'comment' => $request['comment'],
-            'rating' => $request['rating'],
-            'user_id' => $request['user_id']
+            'comment' => $input['comment'],
+            'rating' => $input['rating'],
+            'user_id' => $input['user_id']
         ]);
-        DB::table('spot_comments')->insert([
-            'comment_id' => $comment['id'],
-            'spot_id' => $request['spot_id'],
-            'created_at' => \Carbon\Carbon::now(),
-            'updated_at' => \Carbon\Carbon::now()
-        ]);
-        return response()->json([
-            'code' => 201,
-            'message' => 'comment added successfully',
-            'comment' => $comment
-        ]);
+        if ($request->input('spot_id')) {
+            DB::table('spot_comments')->insert([
+                'comment_id' => $comment['id'],
+                'spot_id' => $input['spot_id'],
+                'created_at' => \Carbon\Carbon::now(),
+                'updated_at' => \Carbon\Carbon::now()
+            ]);
+            return response()->json([
+                'code' => 201,
+                'message' => 'comment added successfully',
+                'comment' => $comment
+            ]);
+        }
+        if ($request->input('shop_id')) {
+            DB::table('shop_comments')->insert([
+                'comment_id' => $comment['id'],
+                'shop_id' => $input['shop_id'],
+                'created_at' => \Carbon\Carbon::now(),
+                'updated_at' => \Carbon\Carbon::now()
+                ]);
+            return response()->json([
+                'code' => 201,
+                'message' => 'comment added successfully',
+                'comment' => $comment
+            ]);
+        }
     }
 
     public function destroy($id)
