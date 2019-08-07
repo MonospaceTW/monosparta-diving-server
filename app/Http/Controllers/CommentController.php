@@ -8,7 +8,7 @@ use App\Comment;
 
 class CommentController extends Controller
 {
-    public function store(Request $request)
+    public function create(Request $request)
     {
         $comment = Comment::create($request->all());
         return response()->json([
@@ -24,7 +24,7 @@ class CommentController extends Controller
         if ($comment == NULL) {
             return response()->json([
                 "code" => 400,
-                "message" => "this comment does not exist"
+                "message" => "This comment does not exist"
             ]);
         } else {
             $comment = $comment->delete();
