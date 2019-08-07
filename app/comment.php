@@ -9,6 +9,11 @@ class Comment extends Model
     // data insert blacklist
     protected $guarded = [];
 
+    public function getDateFormat()
+    {
+        return 'U';
+    }
+
     // define relationship
     public function commentable()
     {
