@@ -12,11 +12,10 @@ use App\Shop;
 
 use App\Article;
 
-use App\Comment;
-
 class TaskController extends Controller
 {
     /*==========spot search API==========*/
+
     //random five spots for home page
     public function spotRandom()
     {
@@ -37,9 +36,11 @@ class TaskController extends Controller
                         'district',
                         'img1'
                         ])
-                    ->get();
+                    ->paginate(15); //Add pagination
+        $spotTotal = $spot->count(); //count the number of spot
         return response()->json([
-            'item' => $spot
+            'item' => $spot,
+            'spotTotal' =>$spotTotal
         ]);
     }
 
@@ -49,24 +50,32 @@ class TaskController extends Controller
         if ($request->location && $request->level) {
             $location = $request->location;
             $level = $request->level;
-            $spotResult = Spot::where("location", $location)->where("level", $level)->get();
+            $spotResult = Spot::where("location", $location)
+                                ->where("level", $level)
+                                ->paginate(15); //Add pagination
+            $spotTotal = $spotResult->count(); //count the number of spot searching results
             return response()->json([
-                'item' => $spotResult
+                'item' => $spotResult,
+                'spotTotal' => $spotTotal
             ]);
         }
         else {
             if ($request->location) {
                 $parm = $request->location;
-                $spotLocation = Spot::where("location", $parm)->get();
+                $spotLocation = Spot::where("location", $parm)->paginate(15); //Add pagination
+                $spotTotal = $spotLocation->count(); //count the number of spot searching results
                 return response()->json([
-                    'item' => $spotLocation
+                    'item' => $spotLocation,
+                    'spotTotal' => $spotTotal
                 ]);
             }
             if ($request->level) {
                 $parm = $request->level;
-                $spotLevel = Spot::where("level", $parm)->get();
+                $spotLevel = Spot::where("level", $parm)->paginate(15); //Add pagination
+                $spotTotal = $spotLevel->count(); //count the number of spot searching results
                 return response()->json([
-                    'item' => $spotLevel
+                    'item' => $spotLevel,
+                    'spotTotal' => $spotTotal
                 ]);
             }
         }
@@ -84,9 +93,18 @@ class TaskController extends Controller
              ]);
          } else {
              $spotComment = Spot::where('id', $spotId)->with('Comments')->get();
-             $comment = $spotComment->pluck('comments');
-             $spotLocation = $spotInfo->pluck('location');
+             $comment = $spotComment->pluck('comments')
+                                    // ->select([
+                                    //     'comment',
+                                    //     'rating',
+                                    //     'created_at',
+                                    //     'id'
+                                    // ])
+                                    ->first();
+             $spotLocation = $spotInfo->pluck('location')->first();
              $shopNearby = Shop::where('location', $spotLocation)
+                                ->inRandomOrder()
+                                ->take(5)
                                 ->select([
                                     'id',
                                     'name',
@@ -94,12 +112,15 @@ class TaskController extends Controller
                                     'district',
                                     'img1'
                                     ])
+                                // ->first()
                                 ->get();
+            $commentTotal = $comment->count();
              return response()->json([
                  'item' => $spotInfo,
                  'comment' => $comment,
                 //  'location' => $spotLocation,
-                 'Nearby' => $shopNearby
+                 'Nearby' => $shopNearby,
+                 'commentTotal' => $commentTotal
              ]);
         }
     }
@@ -128,9 +149,11 @@ class TaskController extends Controller
                         'district',
                         'img1'
                         ])
-                    ->get();
+                    ->paginate(15); //Add pagination
+        $shopTotal = $shop->count(); //count the number of spot
         return response()->json([
-            'item' => $shop
+            'item' => $shop,
+            'shopTotal' => $shopTotal
         ]);
     }
 
@@ -140,24 +163,32 @@ class TaskController extends Controller
         if ($request->location && $request->service){
             $location = $request->location;
             $service = $request->service;
-            $shopResult = Shop::where("location", $location)->where("service","LIKE", "%".$service."%")->get();
+            $shopResult = Shop::where("location", $location)
+                                ->where("service","LIKE", "%".$service."%")
+                                ->paginate(15); //Add pagination
+            $shopTotal = $shopResult->count(); //count the number of shop searching results
             return response()->json([
-                'item' => $shopResult
+                'item' => $shopResult,
+                'shopTotal' => $shopTotal
             ]);
         }
         else {
             if ($request->location) {
                 $parm = $request->location;
-                $shopLocation = Shop::where("location", $parm)->get();
+                $shopLocation = Shop::where("location", $parm)->paginate(15); //Add pagination
+                $shopTotal = $shopLocation->count(); //count the number of shop searching results
                 return response()->json([
-                    'item' => $shopLocation
+                    'item' => $shopLocation,
+                    'shopTotal' => $shopTotal
                 ]);
             }
             if ($request->service) {
                 $parm = $request->service;
-                $shopService = Shop::where("service","LIKE", "%".$parm."%")->get();
+                $shopService = Shop::where("service","LIKE", "%".$parm."%")->paginate(15); //Add pagination
+                $shopTotal = $shopService->count(); //count the number of shop searching results
                 return response()->json([
-                    'item' => $shopService
+                    'item' => $shopService,
+                    'shopTotal' => $shopTotal
                 ]);
             }
         }
@@ -175,14 +206,16 @@ class TaskController extends Controller
             ]);
         } else {
             $shopComment = Shop::where('id', $shopId)->with('Comments')->get();
-            $comment = $shopComment->pluck('comments');
-            // $shopLocation = $shopInfo->pluck('location');
-            // $spotNearBy = Shop::where('location', $shopLocation)->get();
+            $comment = $shopComment->pluck('comments')->first();
+            // $shopLocation = $shopInfo->pluck('location')->first();
+            // $spotNearBy = Shop::where('location', $shopLocation)->first()->get();
+            $commentTotal = $comment->count();
             return response()->json([
                 'item' => $shopInfo,
                 'comment' => $comment,
                 // 'location' => $shopLocation,
                 // 'shopNearBy' => $spotNearBy
+                'commentTotal' => $commentTotal
             ]);
         }
     }
@@ -194,18 +227,29 @@ class TaskController extends Controller
         $decodeKeyword = urldecode($keyword);//decode keyword from frontend
         $spotResult = Spot::where("name","LIKE","%".$decodeKeyword."%")
                             ->orWhere("description","LIKE","%".$decodeKeyword."%")
-                            ->get(['id','name']);
+                            ->select(['id','name'])
+                            ->get();
         $shopResult = Shop::where("name","LIKE","%".$decodeKeyword."%")
                             ->orWhere("description","LIKE","%".$decodeKeyword."%")
-                            ->get(['id','name']);
+                            ->select(['id','name'])
+                            ->get();
         $articleResult = Article::where("title","LIKE","%".$decodeKeyword."%")
                             ->orWhere("content","LIKE","%".$decodeKeyword."%")
-                            ->get(['id','title']);
+                            ->select(['id','title'])
+                            ->get();
+
+        //count the number of search results
+        $spotTotal = $spotResult->count();
+        $shopTotal = $shopResult->count();
+        $articleTotal = $articleResult->count();
 
         return response()->json([
             'spot' => $spotResult,
             'shop' => $shopResult,
             'article' => $articleResult,
+            'spotTotal' => $spotTotal,
+            'shopTotal' => $shopTotal,
+            'articleTotal' => $articleTotal
         ]);
     }
     /*==========keyword search API end==========*/
@@ -213,9 +257,11 @@ class TaskController extends Controller
     /*==========article API==========*/
     //show list of all articles
     public function articleIndex(){
-        $articleList = Article::orderBy("id", "desc")->get();
+        $articleList = Article::orderBy("id", "desc")->paginate(15); //Add pagination
+        $articleTotal = $articleList->count(); //count the number of articles
         return response()->json([
-            'item'=>$articleList
+            'item' => $articleList,
+            'articleTotal' => $articleTotal
         ]);
     }
 
@@ -231,9 +277,11 @@ class TaskController extends Controller
     //display articles by category
     public function articleCategory($category)
     {
-            $categoryResult = Article::where("category", $category)->get();
+            $categoryResult = Article::where("category", $category)->paginate(15); //Add pagination
+            $categoryTotal = $categoryResult->count(); //count the number of article category results
             return response()->json([
-                'item' => $categoryResult
+                'item' => $categoryResult,
+                'categoryTotal' => $categoryTotal
             ]);
     }
 
