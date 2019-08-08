@@ -10,7 +10,7 @@ use Illuminate\Support\Facades\DB;
 
 class CommentController extends Controller
 {
-    public function store(Request $request)
+    public function create(Request $request)
     {
         $input = $request -> all();
         $comment = Comment::create([
@@ -51,8 +51,9 @@ class CommentController extends Controller
         $comment = Comment::find($id);
         if ($comment == NULL) {
             return response()->json([
-                'code' => 400,
-                'message' => 'this comment does not exist'
+
+                "code" => 400,
+                "message" => "This comment does not exist"
             ]);
         } else {
             $comment = $comment->delete();
