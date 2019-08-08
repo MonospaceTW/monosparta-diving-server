@@ -92,15 +92,7 @@ class TaskController extends Controller
                  'message' => 'this spot does not exist'
              ]);
          } else {
-             $spotComment = Spot::find($spotId)->Comments()->get();
-             $comment = $spotComment->pluck('comments')
-                                    // ->select([
-                                    //     'comment',
-                                    //     'rating',
-                                    //     'created_at',
-                                    //     'id'
-                                    // ])
-                                    ->first();
+             $spotComment = Spot::find($spotId)->Comments()->latest()->get();
              $spotLocation = $spotInfo->pluck('location')->first();
              $shopNearby = Shop::where('location', $spotLocation)
                                 ->inRandomOrder()
@@ -114,7 +106,7 @@ class TaskController extends Controller
                                     ])
                                 // ->first()
                                 ->get();
-            $commentTotal = $comment->count();
+            $commentTotal = $spotComment->count();
              return response()->json([
                  'item' => $spotInfo,
                  'comment' => $spotComment,
@@ -205,11 +197,10 @@ class TaskController extends Controller
                 'message' => 'this shop does not exist'
             ]);
         } else {
-            $shopComment = Shop::find($shopId)->Comments()->get();
-            $comment = $shopComment->pluck('comments')->first();
+            $shopComment = Shop::find($shopId)->Comments()->latest()->get();
             // $shopLocation = $shopInfo->pluck('location')->first();
             // $spotNearBy = Shop::where('location', $shopLocation)->first()->get();
-            $commentTotal = $comment->count();
+            $commentTotal = $shopComment->count();
             return response()->json([
                 'item' => $shopInfo,
                 'comment' => $shopComment,
