@@ -76,9 +76,7 @@ class RebuildDB extends Migration
             $table->charset = 'utf8mb4';
             $table->collate = 'utf8mb4_unicode_ci';
             $table->bigIncrements('id');
-            // $table->timestamps();
-            $table->integer('created_at');
-            $table->integer('updated_at');
+            $table->timestamps();
             $table->text('comment')->default(NULL);
             $table->tinyInteger('rating');
             $table->unsignedBigInteger('user_id')->nullable();

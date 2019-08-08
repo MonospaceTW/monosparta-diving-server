@@ -14,7 +14,7 @@ $factory->define(Shop::class, function (Faker $faker) {
         'description' => $faker->text(100),
         'county' => $faker->city,
         'address' => $faker->streetAddress,
-        'web1' => $faker->url,
+        'url' => $faker->url,
         'longitude' => $faker->longitude,
         'latitude' => $faker->latitude,
         'img1' => $faker->imageUrl,

@@ -41,5 +41,5 @@ Route::delete("comment/{id}", "CommentController@destroy");
 /*==========comment API Route ==========*/
 
 Route::fallback(function(){
-    return response()->json(['message' => 'Not Found!'], 404);
+    return response()->json(['message' => 'Not Found!', 'code' => 404], 404);
 });

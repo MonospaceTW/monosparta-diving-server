@@ -92,15 +92,7 @@ class TaskController extends Controller
                  'message' => 'this spot does not exist'
              ]);
          } else {
-             $spotComment = Spot::where('id', $spotId)->with('Comments')->get();
-             $comment = $spotComment->pluck('comments')
-                                    // ->select([
-                                    //     'comment',
-                                    //     'rating',
-                                    //     'created_at',
-                                    //     'id'
-                                    // ])
-                                    ->first();
+             $spotComment = Spot::find($spotId)->Comments()->latest()->get();
              $spotLocation = $spotInfo->pluck('location')->first();
              $shopNearby = Shop::where('location', $spotLocation)
                                 ->inRandomOrder()
@@ -114,10 +106,10 @@ class TaskController extends Controller
                                     ])
                                 // ->first()
                                 ->get();
-            $commentTotal = $comment->count();
+            $commentTotal = $spotComment->count();
              return response()->json([
                  'item' => $spotInfo,
-                 'comment' => $comment,
+                 'comment' => $spotComment,
                 //  'location' => $spotLocation,
                  'Nearby' => $shopNearby,
                  'commentTotal' => $commentTotal
@@ -205,14 +197,13 @@ class TaskController extends Controller
                 'message' => 'this shop does not exist'
             ]);
         } else {
-            $shopComment = Shop::where('id', $shopId)->with('Comments')->get();
-            $comment = $shopComment->pluck('comments')->first();
+            $shopComment = Shop::find($shopId)->Comments()->latest()->get();
             // $shopLocation = $shopInfo->pluck('location')->first();
             // $spotNearBy = Shop::where('location', $shopLocation)->first()->get();
-            $commentTotal = $comment->count();
+            $commentTotal = $shopComment->count();
             return response()->json([
                 'item' => $shopInfo,
-                'comment' => $comment,
+                'comment' => $shopComment,
                 // 'location' => $shopLocation,
                 // 'shopNearBy' => $spotNearBy
                 'commentTotal' => $commentTotal

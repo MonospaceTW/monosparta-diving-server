@@ -28,6 +28,6 @@ class Spot extends Model
     // define relationship with comments
     public function Comments()
     {
-        return $this->morphMany('App\Comment', 'commentable');
+        return $this->belongsToMany('App\Comment', 'spot_comments', 'spot_id', 'comment_id')->withTimestamps();
     }
 }

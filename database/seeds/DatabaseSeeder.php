@@ -23,5 +23,12 @@ class DatabaseSeeder extends Seeder
 
         factory(App\Article::class, 25)->create();
 
+        DB::table('shop_comments')->insert(
+            [
+                'shop_id' => App\Shop::select('id')->orderByRaw("RAND()")->first()->id,
+                'comment_id' => App\Comment::select('id')->orderByRaw("RAND()")->first()->id,
+            ]
+        );
+
     }
 }

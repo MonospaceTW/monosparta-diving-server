@@ -22,7 +22,7 @@ class CreatePivotTables extends Migration
             $table->foreign('spot_id')->references('id')->on('spots');
 
         });
-        Schema::create('spot_comments', function (Blueprint $table) {
+        Schema::create('shop_comments', function (Blueprint $table) {
             $table->bigIncrements('id');
             $table->timestamps();
             $table->unsignedBigInteger('comment_id');

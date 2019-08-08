@@ -9,15 +9,15 @@ class Comment extends Model
     // data insert blacklist
     protected $guarded = [];
 
-    public function getDateFormat()
+    // define relationship
+    public function shops()
     {
-        return 'U';
+        return $this->belongsToMany('App\Shop', 'shop_comments', 'comment_id', 'shop_id')->withTimestamps();
     }
 
-    // define relationship
-    public function commentable()
+    public function spots()
     {
-        return $this->morphTo();
+        return $this->belongsToMany('App\Spot', 'spot_comments', 'comment_id', 'spot_id')->withTimestamps();
     }
 
     public function Users()
