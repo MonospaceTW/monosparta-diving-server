@@ -37,9 +37,9 @@ Route::get("article/{id}","TaskController@articleInfo");
 
 /*==========comment API Route ==========*/
 Route::post("comment/", "CommentController@create");
-Route::get("comment/delete/{id}", "CommentController@destroy");
+Route::delete("comment/{id}", "CommentController@destroy");
 /*==========comment API Route ==========*/
 
 Route::fallback(function(){
-    return response()->json(['message' => 'Not Found!'], 404);
+    return response()->json(['message' => 'Not Found!', 'code' => 404], 404);
 });

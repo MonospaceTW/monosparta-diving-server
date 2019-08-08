@@ -10,9 +10,14 @@ class Comment extends Model
     protected $guarded = [];
 
     // define relationship
-    public function commentable()
+    public function shops()
     {
-        return $this->morphTo();
+        return $this->belongsToMany('App\Shop', 'shop_comments', 'comment_id', 'shop_id')->withTimestamps();
+    }
+
+    public function spots()
+    {
+        return $this->belongsToMany('App\Spot', 'spot_comments', 'comment_id', 'spot_id')->withTimestamps();
     }
 
     public function Users()

@@ -9,6 +9,6 @@ class Shop extends Model
     // define relationship
     public function Comments()
     {
-        return $this->morphMany('App\Comment', 'commentable');
+        return $this->belongsToMany('App\Comment', 'shop_comments', 'shop_id', 'comment_id')->withTimestamps();
     }
 }
