@@ -33,7 +33,6 @@ class TaskController extends Controller
                         'id',
                         'name',
                         'county',
-                        'district',
                         'img1'
                         ])
                     ->paginate(15); //Add pagination
@@ -101,7 +100,6 @@ class TaskController extends Controller
                                     'id',
                                     'name',
                                     'county',
-                                    'district',
                                     'img1'
                                     ])
                                 // ->first()
@@ -138,7 +136,6 @@ class TaskController extends Controller
                         'id',
                         'name',
                         'county',
-                        'district',
                         'img1'
                         ])
                     ->paginate(15); //Add pagination
