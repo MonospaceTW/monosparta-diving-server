@@ -8,8 +8,8 @@ use Faker\Generator as Faker;
 $factory->define(Comment::class, function (Faker $faker) {
 
     return [
-        // 'comment' => $faker->text(100),
-        // 'rating' => $faker->numberBetween($min = 1, $max = 5),
-        // 'user_id' => $faker->numberBetween(1,10)
+        'comment' => $faker->text(100),
+        'rating' => $faker->numberBetween($min = 1, $max = 5),
+        'user_id' => $faker->numberBetween(1,10)
     ];
 });
