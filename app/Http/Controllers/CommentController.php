@@ -51,12 +51,13 @@ class CommentController extends Controller
         $comment = Comment::find($id);
         if ($comment == NULL) {
             return response()->json([
-
                 "code" => 400,
                 "message" => "This comment does not exist"
             ]);
         } else {
-            $comment = $comment->delete();
+            $comment->shops()->detach();
+            $comment->spots()->detach();
+            $comment->delete();
             return response()->json([
                 'code' => 200,
                 'message' => 'Task deleted successfully',
