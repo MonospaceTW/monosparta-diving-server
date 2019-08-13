@@ -19,12 +19,7 @@ class CommentController extends Controller
             'user_id' => $input['user_id']
         ]);
         if ($request->input('spot_id')) {
-            DB::table('spot_comments')->insert([
-                'comment_id' => $comment['id'],
-                'spot_id' => $input['spot_id'],
-                'created_at' => \Carbon\Carbon::now(),
-                'updated_at' => \Carbon\Carbon::now()
-            ]);
+            $comment = $comment->spots()->attach($input['spot_id']);
             return response()->json([
                 'code' => 201,
                 'message' => 'comment added successfully',
@@ -32,12 +27,7 @@ class CommentController extends Controller
             ]);
         }
         if ($request->input('shop_id')) {
-            DB::table('shop_comments')->insert([
-                'comment_id' => $comment['id'],
-                'shop_id' => $input['shop_id'],
-                'created_at' => \Carbon\Carbon::now(),
-                'updated_at' => \Carbon\Carbon::now()
-                ]);
+            $comment = $comment->shops()->attach($input['shop_id']);
             return response()->json([
                 'code' => 201,
                 'message' => 'comment added successfully',
@@ -51,12 +41,13 @@ class CommentController extends Controller
         $comment = Comment::find($id);
         if ($comment == NULL) {
             return response()->json([
-
                 "code" => 400,
                 "message" => "This comment does not exist"
             ]);
         } else {
-            $comment = $comment->delete();
+            $comment->shops()->detach();
+            $comment->spots()->detach();
+            $comment->delete();
             return response()->json([
                 'code' => 200,
                 'message' => 'Task deleted successfully',
