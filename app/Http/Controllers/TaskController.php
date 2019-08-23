@@ -222,15 +222,15 @@ class TaskController extends Controller
         $spotResult = Spot::where("name","LIKE","%".$decodeKeyword."%")
                             ->orWhere("description","LIKE","%".$decodeKeyword."%")
                             ->select(['id','name'])
-                            ->get();
+                            ->paginate(15);
         $shopResult = Shop::where("name","LIKE","%".$decodeKeyword."%")
                             ->orWhere("description","LIKE","%".$decodeKeyword."%")
                             ->select(['id','name'])
-                            ->get();
+                            ->paginate(15);
         $articleResult = Article::where("title","LIKE","%".$decodeKeyword."%")
                             ->orWhere("content","LIKE","%".$decodeKeyword."%")
                             ->select(['id','title'])
-                            ->get();
+                            ->paginate(15);
 
         //count the number of search results
         $spotTotal = $spotResult->count();
