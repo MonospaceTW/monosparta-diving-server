@@ -4,6 +4,8 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 
+use Illuminate\Support\Facades\DB;
+
 use App\User;
 
 use App\Spot;
@@ -85,35 +87,43 @@ class TaskController extends Controller
     public function spotInfo($spotId)
     {
          // return with info and comments
-         $spotInfo = Spot::where('id', $spotId)->get();
-         if ($spotInfo->isEmpty()) {
+        $spotInfo = Spot::where('id', $spotId)->get();
+        if ($spotInfo->isEmpty()) {
              return response()->json([
                  'code' => 404,
                  'message' => 'this spot does not exist'
              ]);
          } else {
-             $spotComment = Spot::find($spotId)->Comments()->latest()->get();
-             $spotLocation = $spotInfo->pluck('location')->first();
-             $shopNearby = Shop::where('location', $spotLocation)
-                                ->inRandomOrder()
-                                ->take(5)
-                                ->select([
-                                    'id',
-                                    'name',
-                                    'county',
-                                    'district',
-                                    'img1'
-                                    ])
-                                // ->first()
-                                ->get();
+            $spotComment = Spot::find($spotId)->Comments()->latest()->get();
+            $lat = $spotInfo->pluck('latitude');
+            $lat = floatval($lat[0]);
+            $long = $spotInfo->pluck('longitude');
+            $long = floatval($long[0]);
+            $radius = 20;
             $commentTotal = $spotComment->count();
-             return response()->json([
-                 'item' => $spotInfo,
-                 'comment' => $spotComment,
-                //  'location' => $spotLocation,
-                 'Nearby' => $shopNearby,
-                 'commentTotal' => $commentTotal
-             ]);
+            $shopNearby = DB::select('SELECT * FROM(
+                SELECT
+                    `id`, `name`,
+                    3956 * ACOS(COS(RADIANS( '.$lat.' )) * COS(RADIANS(`latitude`)) * COS(RADIANS( '.$long.' ) - RADIANS(`longitude`)) + SIN(RADIANS( '.$lat.' )) * SIN(RADIANS(`latitude`))) AS `distance`
+                FROM `shops`
+                WHERE
+                    `latitude`
+                        BETWEEN '.$lat.' - ('.$radius.'/69)
+                        AND '.$lat.' + ('.$radius.'/69)
+                    AND `longitude`
+                        BETWEEN '.$long.' - '.$radius.'/(69 * COS(RADIANS('.$lat.')))
+                        AND '.$long.' + '.$radius.'/(69 * COS(RADIANS('.$lat.'))))r
+                    WHERE `distance` < '. $radius .'
+                    ORDER BY `distance` ASC');
+                return response()->json([
+                    'item' => $spotInfo,
+                    'comment' => $spotComment,
+                    'lat' => $lat,
+                    'long' => $long,
+                    // 'location' => $spotLocation,
+                    'Nearby' => $shopNearby,
+                    'commentTotal' => $commentTotal
+                ]);
         }
     }
 

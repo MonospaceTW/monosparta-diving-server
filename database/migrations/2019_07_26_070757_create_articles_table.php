@@ -17,12 +17,12 @@ class CreateArticlesTable extends Migration
         Schema::create('articles', function (Blueprint $table) {
             $table->bigIncrements('id');
             $table->timestamps();
-            $table->char('category',10);
-            $table->longText('img');
-            $table->char('date',10);
+            $table->char('category',10)->nullable();
+            $table->longText('img')->nullable();
+            $table->integer('date');
             $table->string('author',50);
             $table->string('title');
-            $table->string('content');
+            $table->longText('content');
             $table->longText('url');
         });
     }
