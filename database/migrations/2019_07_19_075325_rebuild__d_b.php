@@ -23,11 +23,10 @@ class RebuildDB extends Migration
             $table->char('location', 5);
             $table->string('name');
             $table->text('description');
-            $table->string('county')->nullable();
-            $table->string('district')->nullable();
+            $table->char('county',10)->nullable();
+            $table->tinyInteger('avg_rating')->nullable();
             $table->char('longitude', 10)->nullable();
             $table->char('latitude', 10)->nullable();
-            $table->tinyInteger('avg_rate')->nullable()->default(0);
             $table->longText('img1')->nullable();
             $table->longText('img2')->nullable();
             $table->longText('img3')->nullable();
@@ -41,24 +40,25 @@ class RebuildDB extends Migration
             $table->bigIncrements('id');
             $table->timestamps();
             $table->string('service');
-            $table->string('location', 5);
+            $table->char('location', 5);
             $table->string('name');
             $table->text('description');
             $table->tinyInteger('avg_rate')->nullable()->default(0);
             $table->text('service_hour')->nullable();
             $table->string('county')->nullable();
             $table->string('address')->nullable();
-            $table->char('phone', 12)->nullable();
-            $table->char('cell', 12)->nullable();
+            $table->char('tel', 12)->nullable();
+            $table->char('mobile', 12)->nullable();
             $table->longText('url')->nullable();
             $table->longText('fb')->nullable();
-            $table->char('longitude', 10);
-            $table->char('latitude', 10);
-            $table->longText('img1');
-            $table->longText('img2');
-            $table->longText('img3');
-            $table->longText('img4');
-            $table->longText('img5');
+            $table->tinyInteger('avg_rating')->nullable();
+            $table->char('longitude', 10)->nullable();
+            $table->char('latitude', 10)->nullable();
+            $table->longText('img1')->nullable();
+            $table->longText('img2')->nullable();
+            $table->longText('img3')->nullable();
+            $table->longText('img4')->nullable();
+            $table->longText('img5')->nullable();
         });
 
         Schema::create('users', function (Blueprint $table) {
@@ -107,6 +107,7 @@ class RebuildDB extends Migration
             $table->char('visibility', 3);
             $table->tinyInteger('suit_thickness');
             $table->tinyInteger('weight');
+            $table->longText('img');
             $table->text('log');
         });
         // enable foreign key

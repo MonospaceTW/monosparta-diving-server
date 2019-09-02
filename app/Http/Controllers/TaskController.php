@@ -35,7 +35,6 @@ class TaskController extends Controller
                         'id',
                         'name',
                         'county',
-                        'district',
                         'img1'
                         ])
                     ->paginate(15); //Add pagination
@@ -55,6 +54,7 @@ class TaskController extends Controller
             $spotResult = Spot::where("location", $location)
                                 ->where("level", $level)
                                 ->paginate(15); //Add pagination
+            $spotResult -> appends(["location"=>$location,"level"=>$level]); // get the url of pagination with search parameters
             $spotTotal = $spotResult->count(); //count the number of spot searching results
             return response()->json([
                 'item' => $spotResult,
@@ -65,6 +65,7 @@ class TaskController extends Controller
             if ($request->location) {
                 $parm = $request->location;
                 $spotLocation = Spot::where("location", $parm)->paginate(15); //Add pagination
+                $spotLocation -> appends(["location"=>$parm]); // get the url of pagination with search parameters
                 $spotTotal = $spotLocation->count(); //count the number of spot searching results
                 return response()->json([
                     'item' => $spotLocation,
@@ -74,6 +75,7 @@ class TaskController extends Controller
             if ($request->level) {
                 $parm = $request->level;
                 $spotLevel = Spot::where("level", $parm)->paginate(15); //Add pagination
+                $spotLevel -> appends(["level"=>$parm]); // get the url of pagination with search parameters
                 $spotTotal = $spotLevel->count(); //count the number of spot searching results
                 return response()->json([
                     'item' => $spotLevel,
@@ -148,7 +150,6 @@ class TaskController extends Controller
                         'id',
                         'name',
                         'county',
-                        'district',
                         'img1'
                         ])
                     ->paginate(15); //Add pagination
@@ -168,6 +169,7 @@ class TaskController extends Controller
             $shopResult = Shop::where("location", $location)
                                 ->where("service","LIKE", "%".$service."%")
                                 ->paginate(15); //Add pagination
+            $shopResult -> appends(["location"=>$location,"service"=>$service]); // get the url of pagination with search parameters
             $shopTotal = $shopResult->count(); //count the number of shop searching results
             return response()->json([
                 'item' => $shopResult,
@@ -178,6 +180,7 @@ class TaskController extends Controller
             if ($request->location) {
                 $parm = $request->location;
                 $shopLocation = Shop::where("location", $parm)->paginate(15); //Add pagination
+                $shopLocation -> appends(["location"=>$parm]); // get the url of pagination with search parameters
                 $shopTotal = $shopLocation->count(); //count the number of shop searching results
                 return response()->json([
                     'item' => $shopLocation,
@@ -187,6 +190,7 @@ class TaskController extends Controller
             if ($request->service) {
                 $parm = $request->service;
                 $shopService = Shop::where("service","LIKE", "%".$parm."%")->paginate(15); //Add pagination
+                $shopService -> appends(["service"=>$parm]); // get the url of pagination with search parameters
                 $shopTotal = $shopService->count(); //count the number of shop searching results
                 return response()->json([
                     'item' => $shopService,
@@ -229,15 +233,15 @@ class TaskController extends Controller
         $spotResult = Spot::where("name","LIKE","%".$decodeKeyword."%")
                             ->orWhere("description","LIKE","%".$decodeKeyword."%")
                             ->select(['id','name'])
-                            ->get();
+                            ->paginate(15);
         $shopResult = Shop::where("name","LIKE","%".$decodeKeyword."%")
                             ->orWhere("description","LIKE","%".$decodeKeyword."%")
                             ->select(['id','name'])
-                            ->get();
+                            ->paginate(15);
         $articleResult = Article::where("title","LIKE","%".$decodeKeyword."%")
                             ->orWhere("content","LIKE","%".$decodeKeyword."%")
                             ->select(['id','title'])
-                            ->get();
+                            ->paginate(15);
 
         //count the number of search results
         $spotTotal = $spotResult->count();
