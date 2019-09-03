@@ -116,16 +116,19 @@ class TaskController extends Controller
                         BETWEEN '.$long.' - '.$radius.'/(69 * COS(RADIANS('.$lat.')))
                         AND '.$long.' + '.$radius.'/(69 * COS(RADIANS('.$lat.'))))r
                     WHERE `distance` < '. $radius .'
-                    ORDER BY `distance` ASC');
-                return response()->json([
-                    'item' => $spotInfo,
-                    'comment' => $spotComment,
-                    'lat' => $lat,
-                    'long' => $long,
-                    // 'location' => $spotLocation,
-                    'Nearby' => $shopNearby,
-                    'commentTotal' => $commentTotal
-                ]);
+                    ORDER BY `distance` ASC'); //radius search raw expression
+            $avgRate = 0;
+            foreach ($spotComment as $key => $value) {
+                if(isset($value->rating))
+                    $avgRate += $value->rating;
+                }
+            return response()->json([
+                'item' => $spotInfo,
+                'comment' => $spotComment,
+                'Nearby' => $shopNearby,
+                'commentTotal' => $commentTotal,
+                'avgRate' => $avgRate / $commentTotal
+            ]);
         }
     }
 
