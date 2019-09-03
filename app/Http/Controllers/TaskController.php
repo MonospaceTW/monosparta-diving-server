@@ -121,13 +121,13 @@ class TaskController extends Controller
             foreach ($spotComment as $key => $value) {
                 if(isset($value->rating))
                     $avgRate += $value->rating;
-                }
+                } //average rate calculate
             return response()->json([
                 'item' => $spotInfo,
                 'comment' => $spotComment,
                 'Nearby' => $shopNearby,
                 'commentTotal' => $commentTotal,
-                'avgRate' => $avgRate / $commentTotal
+                'avgRate' => $avgRate/$commentTotal
             ]);
         }
     }
@@ -218,12 +218,16 @@ class TaskController extends Controller
             // $shopLocation = $shopInfo->pluck('location')->first();
             // $spotNearBy = Shop::where('location', $shopLocation)->first()->get();
             $commentTotal = $shopComment->count();
+            $avgRate = 0;
+            foreach ($shopComment as $key => $value) {
+                if(isset($value->rating))
+                    $avgRate += $value->rating;
+                } //average rate calculate
             return response()->json([
                 'item' => $shopInfo,
                 'comment' => $shopComment,
-                // 'location' => $shopLocation,
-                // 'shopNearBy' => $spotNearBy
-                'commentTotal' => $commentTotal
+                'commentTotal' => $commentTotal,
+                'avgRate' => $avgRate/$commentTotal
             ]);
         }
     }
