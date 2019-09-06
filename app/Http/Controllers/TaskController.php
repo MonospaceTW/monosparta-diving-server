@@ -116,7 +116,7 @@ class TaskController extends Controller
                         BETWEEN '.$long.' - '.$radius.'/(69 * COS(RADIANS('.$lat.')))
                         AND '.$long.' + '.$radius.'/(69 * COS(RADIANS('.$lat.'))))r
                     WHERE `distance` < '. $radius .'
-                    ORDER BY `distance` ASC'); //radius search raw expression
+                    ORDER BY `distance` ASC'); //radius search with raw expression
             $avgRate = 0;
             foreach ($spotComment as $key => $value) {
                 if(isset($value->rating))
@@ -215,8 +215,6 @@ class TaskController extends Controller
             ]);
         } else {
             $shopComment = Shop::find($shopId)->Comments()->latest()->get();
-            // $shopLocation = $shopInfo->pluck('location')->first();
-            // $spotNearBy = Shop::where('location', $shopLocation)->first()->get();
             $commentTotal = $shopComment->count();
             $avgRate = 0;
             foreach ($shopComment as $key => $value) {
@@ -249,12 +247,10 @@ class TaskController extends Controller
                             ->orWhere("content","LIKE","%".$decodeKeyword."%")
                             ->select(['id','title'])
                             ->paginate(15);
-
         //count the number of search results
         $spotTotal = $spotResult->count();
         $shopTotal = $shopResult->count();
         $articleTotal = $articleResult->count();
-
         return response()->json([
             'spot' => $spotResult,
             'shop' => $shopResult,
@@ -289,12 +285,12 @@ class TaskController extends Controller
     //display articles by category
     public function articleCategory($category)
     {
-            $categoryResult = Article::where("category", $category)->paginate(15); //Add pagination
-            $categoryTotal = $categoryResult->count(); //count the number of article category results
-            return response()->json([
-                'item' => $categoryResult,
-                'categoryTotal' => $categoryTotal
-            ]);
+        $categoryResult = Article::where("category", $category)->paginate(15); //Add pagination
+        $categoryTotal = $categoryResult->count(); //count the number of article category results
+        return response()->json([
+            'item' => $categoryResult,
+            'categoryTotal' => $categoryTotal
+        ]);
     }
 
     //show certain information of an article
@@ -302,8 +298,17 @@ class TaskController extends Controller
     {
         $articleInfo = Article::where("id", $articleId)->get();
         return response()->json([
-            'item' => $articleInfo,
+            'item' => $articleInfo
         ]);
     }
     /*==========article API end==========*/
+
+    /*==========DB update==========*/
+    public function calRating()
+    {
+        $shopList = Shop::get();
+        return response()->json([
+            'item' => $shopList
+        ]);
+    }
 }
