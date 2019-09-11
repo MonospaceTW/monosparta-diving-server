@@ -115,7 +115,7 @@ class TaskController extends Controller
                     AND `longitude`
                         BETWEEN '.$long.' - '.$radius.'/(69 * COS(RADIANS('.$lat.')))
                         AND '.$long.' + '.$radius.'/(69 * COS(RADIANS('.$lat.'))))r
-                    WHERE `distance` < '. $radius .'
+                    WHERE `distance` < '.$radius.'
                     ORDER BY `distance` ASC'); //radius search with raw expression
             $avgRate = 0;
             foreach ($spotComment as $key => $value) {
@@ -304,11 +304,25 @@ class TaskController extends Controller
     /*==========article API end==========*/
 
     /*==========DB update==========*/
-    public function calRating()
+    public function shopRating()
     {
+        $avgRate = 0;
         $shopList = Shop::get();
-        return response()->json([
-            'item' => $shopList
-        ]);
+        foreach ($shopList as $key => $value) {
+            $shopComment = Shop::find($value->id)->Comments()->latest()->get();
+            // $result = array_merge($shopList, $shopComment);
+            foreach ($shopComment as $key => $value) {
+                if(isset($value->rating))
+                    $avgRate += $value->rating;//average rate calculate
+            }
+            return response()->json([
+                'item' => $shopComment,
+                'rating' => $avgRate
+            ]);
+        }
+        // return response()->json([
+        //     'item' => $shopList[0],
+        //     'comment' => $shopComment
+        // ]);
     }
 }
