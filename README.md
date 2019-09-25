@@ -45,7 +45,8 @@
 > `$HOME/.composer/vendor/bin` 
 
 5. **Start a new laravel project**  
-   `$ laravel new projectName`
+
+   `$ laravel new projectName`  
    
 ![](https://i.imgur.com/An8LyTL.png)
 
@@ -67,20 +68,27 @@ Because *.gitignore* will ignore some files,you must do this to restore the lara
 Open your terminal,direct PATH where you want to clone at,then follow commends below.
 
 1. **git clone**  
+
    `$ git clone https://github.com/MonospaceTW/monosparta-diving-server.git`
 
 2. **Reinstall composer**  
    It will reconstruction content in   the index of vendor.  
+   
    `$ cd monosparta-diving-server`  
    `$ composer install`
+   
 3. **Restore the index of node_modules**   
+
    `$ npm install`
+   
 4. **Restore *.env***  
+
    `$ cp .env.example .env`  
    `$ php artisan key:generate`  
    
    Open .env,then check databese,username,and password are correct.  
    For example,  
+   
    ```
    DB_HOST=127.0.0.1
    DB_PORT=3306
@@ -88,12 +96,18 @@ Open your terminal,direct PATH where you want to clone at,then follow commends b
    DB_USERNAME=yourUsername
    DB_PASSWORD=yourPassword
    ```
+   
 #### If you use Homestead,you need more steps.
 1. **Restore Homestead.yaml**  
+
    `$ php vendor/bin/homestead make`
+   
 3. **Start Homestead**  
+
    `$ vagrant up`
+   
 5. **Sign in Homestead,and restore database**  
+
    `$ vagrant ssh`  
    `$ cd public_html/yourProjectName`  
    `$ php artisan migrate`
