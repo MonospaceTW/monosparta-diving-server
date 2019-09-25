@@ -21,6 +21,7 @@
 > `%USERPROFILE%\AppData\Roaming\Composer\vendor\bin` 
 
 5. **Start a new laravel project**  
+
    `$ laravel new projectName`
 
 6. **Test**  
